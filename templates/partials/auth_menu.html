@@ -1,0 +1,55 @@
+{% load static %}
+{% if user.is_authenticated %}
+{% with profile=user.profile %}
+<li class="auth-menu">
+    <button type="button" class="auth-toggle" aria-haspopup="true" aria-expanded="false" title="حساب کاربری">
+        {% if profile.avatar %}<img class="auth-avatar" src="{{ profile.avatar.url }}" alt="">{% else %}<span class="auth-avatar">{{ user.first_name|default:user.username|default:"؟"|slice:":1"|upper }}</span>{% endif %}
+        <i class="fa fa-angle-down auth-caret" aria-hidden="true"></i>
+    </button>
+    <div class="auth-dropdown">
+        <div class="auth-dropdown__head">
+            {% if profile.avatar %}<img class="auth-avatar" src="{{ profile.avatar.url }}" alt="">{% else %}<span class="auth-avatar">{{ user.first_name|default:user.username|default:"؟"|slice:":1"|upper }}</span>{% endif %}
+            <strong>{{ user.first_name|default:user.username }}</strong>
+            <small>{{ user.email|default:"حساب کاربری من" }}</small>
+        </div>
+        <ul class="auth-dropdown__list">
+            <li><a href="{% url 'profile' %}" title=""><i class="fa fa-user" aria-hidden="true"></i> پروفایل من</a></li>
+            <li>
+                <form method="post" action="{% url 'sign_out' %}" class="logout-form">{% csrf_token %}<button type="submit" class="logout-btn" title="خروج"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> خروج از حساب</button></form>
+            </li>
+        </ul>
+    </div>
+</li>
+{% endwith %}
+{% else %}
+<li><a href="{% url 'sign_in' %}" title="ورود" class="cart-ico">ورود <img src="{% static 'assets/images/icons/sign-in.svg' %}" alt=""></a></li>
+{% endif %}
+<script>
+/* header account menu: open/close the dropdown (kept here so it never depends on script caching) */
+(function () {
+    function closeMenus(except) {
+        var open = document.querySelectorAll('.auth-menu.is-open');
+        for (var i = 0; i < open.length; i++) {
+            if (open[i] === except) continue;
+            open[i].classList.remove('is-open');
+            var btn = open[i].querySelector('.auth-toggle');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+    }
+    document.addEventListener('click', function (e) {
+        if (!(e.target instanceof Element)) return;
+        var menu = e.target.closest('.auth-menu');
+        var toggle = e.target.closest('.auth-toggle');
+        if (toggle && menu) {
+            var isOpen = menu.classList.toggle('is-open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            closeMenus(isOpen ? menu : null);
+            return;
+        }
+        closeMenus(null);
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenus(null);
+    });
+})();
+</script>

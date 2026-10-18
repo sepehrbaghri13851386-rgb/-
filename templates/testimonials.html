@@ -1,0 +1,428 @@
+{% load static %}
+{% load humanize %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>نظرات مشتریان | رستوران اصلی</title>
+    <meta name="description" content="رستوران اصلی - سفارش آنلاین غذا از بهترین رستوران‌ها و کافه‌ها با ارسال سریع به درِ خانه شما" />
+    <meta name="author" content="George_Fx">
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=4">
+    <style>
+        .logout-form { display: inline; margin: 0; }
+        .logout-btn { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+        .logout-btn:hover { color: #D8AB37; }
+        .tst-empty { background: #F4F7FD; border: 1px dashed #c9d4e8; border-radius: 16px; padding: 52px 28px; text-align: center; }
+        .tst-empty .ln-icon { width: 74px; height: 74px; margin: 0 auto 18px; border-radius: 50%; background: #fff; box-shadow: 0 8px 24px rgba(35,38,48,.08); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #D8AB37; }
+        .tst-empty h3 { font-weight: 700; font-size: 20px; margin-bottom: 10px; color: #2F3237; }
+        .tst-empty p { color: #5D6978; max-width: 420px; margin: 0 auto 24px; }
+        /* ---- هدر کارت نظر (حرفه‌ای) ---- */
+        .test-monial .testi_head { display: flex !important; align-items: center; justify-content: space-between; gap: 14px; padding: 0 0 16px !important; margin: 0 0 16px !important; border-bottom: 1px solid rgba(255,255,255,.14); position: relative; }
+        .test-monial .testi_head::before, .test-monial .testi_head::after { display: none !important; }
+        .tm-user { display: flex; align-items: center; gap: 14px; min-width: 0; }
+        .tm-avatar { position: relative; width: 56px; height: 56px; flex: 0 0 56px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #E7BE55, #D8AB37); box-shadow: 0 6px 16px rgba(0,0,0,.28); }
+        .tm-avatar > span, .tm-avatar > img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 50%; }
+        .tm-avatar > span { display: flex; align-items: center; justify-content: center; background: #232630; color: #E7BE55; font-weight: 700; font-size: 20px; }
+        .tm-avatar > img { object-fit: cover; background: #232630; border: 0; }
+        .tm-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .tm-meta strong { font-size: 16px; font-weight: 700; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tm-meta time { font-size: 12.5px; opacity: .62; line-height: 1.4; }
+        .test-monial .quote-icon { position: static !important; flex: 0 0 auto; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 !important; opacity: .9; }
+        .test-monial .quote-icon svg { width: 34px; height: 34px; }
+        .test-monial .quote-icon svg path { fill: #D8AB37; fill-opacity: .85; }
+        .test-monial > p { line-height: 2; margin: 0; }
+        .cm-rating { color: #f5b301; letter-spacing: 2px; margin-bottom: 8px; font-size: 15px; }
+        .cm-rating .off { color: rgba(255,255,255,.2); }
+        .cm-food { background: rgba(216,171,55,.14); color: #D8AB37; border: 1px solid rgba(216,171,55,.35); border-radius: 20px; padding: 4px 14px; font-size: 12px; white-space: nowrap; }
+        .owner-reply { margin-top: 16px; background: rgba(255,255,255,.06); border-right: 3px solid #D8AB37; border-radius: 10px; padding: 14px 16px; }
+        .owner-reply__head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .owner-reply__head img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .owner-reply__head strong { display: block; font-size: 14px; }
+        .owner-reply__head span { font-size: 12px; opacity: .6; }
+        .owner-reply p { margin: 0; opacity: .85; font-size: 14px; line-height: 1.9; }
+        .reply-box { margin-top: 14px; }
+        .reply-box > summary { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; list-style: none; font-size: 13px; color: #D8AB37; border: 1px solid rgba(216,171,55,.45); border-radius: 20px; padding: 5px 16px; transition: background .2s; }
+        .reply-box > summary::-webkit-details-marker { display: none; }
+        .reply-box > summary:hover { background: rgba(216,171,55,.14); }
+        .reply-box[open] > summary { background: rgba(216,171,55,.14); }
+        .reply-box textarea { width: 100%; min-height: 90px; margin-top: 12px; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: inherit; font: inherit; font-size: 14px; resize: vertical; }
+        .reply-box textarea:focus { outline: 0; border-color: #D8AB37; }
+        .reply-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+        .reply-btn { background: linear-gradient(135deg, #E7BE55, #D8AB37); color: #232630; border: 0; border-radius: 20px; padding: 7px 22px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .reply-btn.danger { background: transparent; color: #ff6b6b; border: 1px solid rgba(255,107,107,.5); }
+        .reply-btn:hover { filter: brightness(1.08); }
+        .tm-side { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+        .tm-del { margin: 0; }
+        .tm-del button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,107,107,.5); background: transparent; color: #ff6b6b; cursor: pointer; font-size: 14px; line-height: 1; transition: background .2s; }
+        .tm-del button:hover { background: rgba(255,107,107,.18); }
+        .tm-flash { list-style: none; margin: 0 0 20px; padding: 0; }
+        .tm-flash li { padding: 12px 18px; border-radius: 10px; margin-bottom: 8px; font-size: 14px; background: rgba(46,160,67,.16); border: 1px solid rgba(46,160,67,.5); }
+        .tm-flash li.error { background: rgba(255,107,107,.14); border-color: rgba(255,107,107,.5); }
+        .test-monial { scroll-margin-top: 110px; }
+        .msg-cta { text-align: center; }
+        .msg-cta .btn-default { margin-top: 6px; }
+    </style>
+</head>
+
+<body>
+    
+    <div class="page-loading">
+        <img src="{% static 'assets/images/loader.gif' %}" alt="" />
+    </div><!--page-loading end-->
+    
+    <div class="wrapper">
+
+        <header>
+            <div class="container-fluid">
+                <div class="header-content d-flex flex-wrap align-items-center">
+                    <div class="logo">
+                        <a href="{% url 'index' %}" title="">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="">
+                        </a>
+                    </div><!--logo end-->
+                    <nav>
+                        <ul>
+                            <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                            <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                            <li><a class="active" href="#" title="">صفحات</a>
+                                <ul>
+                                    <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                                    <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                                    <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                                    <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                                    <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                                    <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                                    <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                                    <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                            <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+                        </ul>
+                    </nav><!--navigation end-->
+                    <div class="menu-btn">
+                        <span class="bar1"></span>
+                        <span class="bar2"></span>
+                        <span class="bar3"></span>
+                    </div><!--menu-bar end-->
+                    <ul class="oth-lnks ml-auto">
+                        <li><img src="{% static 'assets/images/icons/phone.svg' %}" alt="">۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><a href="#" title="" class="search-icon"><img src="{% static 'assets/images/icons/search.svg' %}" alt=""></a></li>
+                        <li><a href="{% url 'cart' %}" title="سبد خرید" class="cart-ico"><img src="{% static 'assets/images/icons/cart.svg' %}" alt=""></a><span class="cart-item-num">{{ cart_totals.count|intcomma }}</span></li>
+                        {% include 'partials/auth_menu.html' %}
+                    </ul><!--oth-lnks end-->
+                </div><!--header-content end-->
+                <div class="search-bar">
+                    <div class="container">
+                        <form method="get" action="{% url 'search' %}" role="search">
+                            <input type="hidden" name="scope" value="all">
+                            <input type="text" name="q" placeholder="جستجو در همهٔ بخش‌ها">
+                        </form>
+                    </div>    
+                </div><!--search-bar end-->
+            </div>
+        </header><!--header end-->
+
+        <div class="responsive-mobile-menu">
+            <ul>
+                <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                <li><a class="active" href="#" title="">صفحات</a>
+                    <ul>
+                        <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                        <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                        <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                        <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                        <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                        <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                        <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                        <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+            </ul>
+        </div><!--responsive-mobile-menu end-->
+
+        <section class="pager-section text-center">
+            <div class="fixed-bg bg4"></div>
+            <div class="container">
+                <div class="pager-head">
+                    <h2>نظرات مشتریان</h2>
+                    <ul>
+                        <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                        <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                        <li><span>نظرات مشتریان</span></li>
+                    </ul>
+                </div><!--pager-head end-->
+            </div>
+        </section><!--pager-section end-->
+
+        <section class="sec-block">
+            <div class="container">
+                {% if messages %}
+                <ul class="tm-flash">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>
+                {% endif %}
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="testimonials-list">
+                            {% for t in contact_testimonials %}
+                            <div class="test-monial" id="contact-{{ t.id }}">
+                                <div class="testi_head">
+                                    <div class="tm-user">
+                                        <div class="tm-avatar">
+                                            <span aria-hidden="true">{{ t.name|slice:":1"|upper }}</span>
+                                            {% if t.avatar %}<img src="{{ t.avatar }}" alt="{{ t.name }}" loading="lazy" onerror="this.style.display='none'">{% endif %}
+                                        </div>
+                                        <div class="tm-meta">
+                                            <strong>{{ t.name }}</strong>
+                                            <time>{{ t.date }}</time>
+                                        </div>
+                                    </div>
+                                    <div class="tm-side">
+                                        {% if user.is_superuser %}
+                                        <form method="post" action="{% url 'contact_message_delete' t.id %}" class="tm-del" onsubmit="return confirm('این پیام برای همیشه حذف شود؟')">{% csrf_token %}<button type="submit" title="حذف پیام" aria-label="حذف پیام"><i class="fa fa-trash"></i></button></form>
+                                        {% endif %}
+                                        <span class="quote-icon">
+                                            <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M69.9842 21.4492C69.9842 21.4416 69.9851 21.434 69.9851 21.4264C69.9851 12.2235 62.5248 4.76318 53.3218 4.76318C44.1189 4.76318 36.6588 12.2233 36.6588 21.4264C36.6588 30.6295 44.1197 38.0897 53.322 38.0897C55.2133 38.0897 57.0238 37.76 58.7179 37.1791C54.9689 58.6857 38.1978 72.5552 53.7444 61.1403C70.9835 48.4824 70.0035 21.9348 69.9842 21.4492Z" fill="#F4F7FD"/>
+                                                <path d="M16.6632 38.0895C18.5546 38.0895 20.3651 37.7598 22.0599 37.1789C18.31 58.6855 1.5389 72.5551 17.0857 61.1401C34.3247 48.4824 33.3449 21.9348 33.3255 21.4492C33.3255 21.4416 33.3263 21.434 33.3263 21.4264C33.3263 12.2235 25.8662 4.76318 16.6632 4.76318C7.46014 4.76318 0 12.2233 0 21.4264C0 30.6295 7.46097 38.0895 16.6632 38.0895Z" fill="#F4F7FD"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <p>{{ t.text }}</p>
+                                {% if t.reply %}
+                                <div class="owner-reply">
+                                    <div class="owner-reply__head">
+                                        <img src="{{ t.reply.avatar }}" alt="" onerror="this.style.display='none'">
+                                        <div>
+                                            <strong>{{ t.reply.name }}</strong>
+                                            <span>پاسخ رستوران</span>
+                                        </div>
+                                    </div>
+                                    <p>{{ t.reply.text }}</p>
+                                </div><!--owner-reply end-->
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                <details class="reply-box">
+                                    <summary><i class="fa fa-reply"></i> {% if t.reply %}ویرایش پاسخ{% else %}پاسخ دادن{% endif %}</summary>
+                                    <form method="post" action="{% url 'contact_reply_add' t.id %}">
+                                        {% csrf_token %}
+                                        <textarea name="text" maxlength="500" required placeholder="پاسخ خود را بنویسید...">{{ t.reply.text }}</textarea>
+                                        <div class="reply-actions">
+                                            <button type="submit" class="reply-btn">ثبت پاسخ</button>
+                                            {% if t.reply %}<button type="submit" class="reply-btn danger" formaction="{% url 'contact_reply_delete' t.id %}" formnovalidate onclick="return confirm('پاسخ حذف شود؟')">حذف پاسخ</button>{% endif %}
+                                        </div>
+                                    </form>
+                                </details>
+                                {% endif %}
+                            </div><!--test-monial end-->
+                            {% empty %}
+                            <div class="tst-empty">
+                                <div class="ln-icon"><i class="fa fa-comments"></i></div>
+                                <h3>هنوز پیامی ثبت نشده است</h3>
+                                <p>شما اولین نفر باشید! از صفحه «تماس با ما» پیام بفرستید تا پیام شما اینجا نمایش داده شود.</p>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'contact' %}" title="" class="btn-default">ارسال پیام <span></span></a>
+                                {% else %}
+                                <a href="{% url 'sign_in' %}?next=/contact/" title="" class="btn-default">ورود و ارسال پیام <span></span></a>
+                                {% endif %}
+                            </div><!--tst-empty end-->
+                            {% endfor %}
+                        </div><!--testimonials-list end-->
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+                            <div class="widget widget-help">
+                                <h3 class="widget-title">کمک لازم دارید؟</h3>
+                                <p>اگر سوال دیگری دارید، به ما اطلاع بدهید؛ در اسرع وقت پاسخ می‌دهیم.</p>
+                                <a href="{% url 'contact' %}" title="" class="btn-default height-2">تماس با ما <span></span></a>
+                            </div><!--widget-help end-->
+                            <div class="widget widget-app">
+                                <h3 class="widget-title">دانلود اپلیکیشن</h3>
+                                <ul>
+                                    <li><img src="{% static 'assets/images/btn1.png' %}" alt=""></li>
+                                    <li><img src="{% static 'assets/images/btn2.png' %}" alt=""></li>
+                                </ul>
+                            </div><!--widget-app end-->
+                            <div class="widget widget-newsletter">
+                                <h3 class="widget-title">خبرنامه</h3>
+                                <p>از تخفیف‌ها و جشنواره‌ها جا نمانید.</p>
+                                <form>
+                                    <input type="email" name="email" placeholder="ایمیل خود را وارد کنید" class="half-radius">
+                                    <button type="submit" class="btn-default w-100 text-center">عضویت <span></span></button>
+                                </form>
+                                <h4>عضویت در خبرنامه</h4>
+                            </div><!--widget-newsletter end-->
+                            <div class="widget widget-review msg-cta">
+                                <h3 class="widget-title">دیدگاه خود را ثبت کنید</h3>
+                                <p>تجربه‌تان از سفارش غذا را با ما در میان بگذارید؛ پیام شما پس از ارسال در همین صفحه نمایش داده می‌شود.</p>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'contact' %}" title="" class="btn-default w-100 text-center">ارسال پیام <span></span></a>
+                                {% else %}
+                                <a href="{% url 'sign_in' %}?next=/contact/" title="" class="btn-default w-100 text-center">برای ارسال پیام وارد شوید <span></span></a>
+                                <a href="{% url 'sign_up' %}?next=/contact/" title="" class="btn-default height-2 w-100 text-center">ثبت‌نام <span></span></a>
+                                {% endif %}
+                            </div><!--widget-review end-->
+                        </div><!--sidebar end-->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec-block pt-0">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>نظرهای ثبت‌شده</span>
+                    <h2 class="text-capitalize">نظر مشتریان درباره غذاها</h2>
+                </div><!--sec-title end-->
+                <div class="row">
+                    {% for c in comment_entries %}
+                    <div class="col-lg-6">
+                        <div class="test-monial" id="comment-{{ c.id }}">
+                            <div class="testi_head">
+                                <div class="tm-user">
+                                    <div class="tm-avatar"><span>{{ c.initial }}</span></div>
+                                    <div class="tm-meta"><strong>{{ c.name }}</strong></div>
+                                </div>
+                                <div class="tm-side">
+                                    {% if user.is_superuser %}
+                                    <form method="post" action="{% url 'comment_delete' c.id %}" class="tm-del" onsubmit="return confirm('این نظر برای همیشه حذف شود؟')">{% csrf_token %}<button type="submit" title="حذف نظر" aria-label="حذف نظر"><i class="fa fa-trash"></i></button></form>
+                                    {% endif %}
+                                    <span class="cm-food">{{ c.food }}</span>
+                                </div>
+                            </div>
+                            <div class="cm-rating">
+                                {% for star in "12345"|make_list %}{% if forloop.counter <= c.rating %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star off"></i>{% endif %}{% endfor %}
+                            </div>
+                            <p>{{ c.text }}</p>
+                            {% if c.reply %}
+                            <div class="owner-reply">
+                                <div class="owner-reply__head">
+                                    <img src="{{ c.reply.avatar }}" alt="" onerror="this.style.display='none'">
+                                    <div>
+                                        <strong>{{ c.reply.name }}</strong>
+                                        <span>پاسخ رستوران</span>
+                                    </div>
+                                </div>
+                                <p>{{ c.reply.text }}</p>
+                            </div><!--owner-reply end-->
+                            {% endif %}
+                            {% if user.is_superuser %}
+                            <details class="reply-box">
+                                <summary><i class="fa fa-reply"></i> {% if c.reply %}ویرایش پاسخ{% else %}پاسخ دادن{% endif %}</summary>
+                                <form method="post" action="{% url 'reply_add' c.id %}">
+                                    {% csrf_token %}
+                                    <textarea name="text" maxlength="500" required placeholder="پاسخ خود را بنویسید...">{{ c.reply.text }}</textarea>
+                                    <div class="reply-actions">
+                                        <button type="submit" class="reply-btn">ثبت پاسخ</button>
+                                        {% if c.reply %}<button type="submit" class="reply-btn danger" formaction="{% url 'reply_delete' c.id %}" formnovalidate onclick="return confirm('پاسخ حذف شود؟')">حذف پاسخ</button>{% endif %}
+                                    </div>
+                                </form>
+                            </details>
+                            {% endif %}
+                        </div><!--test-monial end-->
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center" style="color:#8a94a6">هنوز نظری برای غذاها ثبت نشده است. می‌توانید از صفحه هر غذا نظر خود را ثبت کنید.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="top-footer">
+                <div class="fixed-bg bg3"></div>
+                <div class="phone-div">
+                    <div class="border-circle">
+                        <div class="phone-circle">
+                            <a href="#" title="" class="ext-link"></a>
+                            <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.3333 14.1V16.6C18.3343 16.8321 18.2867 17.0618 18.1937 17.2745C18.1008 17.4871 17.9644 17.678 17.7934 17.8349C17.6224 17.9918 17.4205 18.1113 17.2006 18.1856C16.9808 18.26 16.7478 18.2876 16.5167 18.2667C13.9523 17.9881 11.4891 17.1118 9.32498 15.7084C7.31151 14.4289 5.60443 12.7218 4.32498 10.7084C2.91663 8.53436 2.04019 6.05919 1.76665 3.48336C1.74583 3.25291 1.77321 3.02066 1.84707 2.80138C1.92092 2.5821 2.03963 2.3806 2.19562 2.20971C2.35162 2.03882 2.54149 1.90228 2.75314 1.80879C2.9648 1.7153 3.1936 1.66691 3.42499 1.66669H5.92498C6.32941 1.66271 6.72148 1.80592 7.02812 2.06964C7.33476 2.33335 7.53505 2.69956 7.59165 3.10002C7.69717 3.90008 7.89286 4.68563 8.17498 5.44169C8.2871 5.73996 8.31137 6.06412 8.24491 6.37576C8.17844 6.6874 8.02404 6.97345 7.79998 7.20002L6.74165 8.25836C7.92795 10.3446 9.65536 12.0721 11.7417 13.2584L12.8 12.2C13.0266 11.976 13.3126 11.8216 13.6242 11.7551C13.9359 11.6886 14.26 11.7129 14.5583 11.825C15.3144 12.1071 16.0999 12.3028 16.9 12.4084C17.3048 12.4655 17.6745 12.6694 17.9388 12.9813C18.203 13.2932 18.3435 13.6913 18.3333 14.1Z" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/logo.png' %}" alt="">
+                                <h4>ساعات کاری</h4>
+                                <p>شنبه تا جمعه: ۹ صبح تا ۱۰ شب <br /> جمعه: ۱۰ صبح تا ۸ شب</p>
+                            </div><!--widget-about end-->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="widget widget-contact text-center">
+                                <h2><span>برای سفارش</span> با ما تماس بگیرید!</h2>
+                                <p>خجالت نکشید، ما گاز نمی‌گیریم :)</p>
+                                <strong>۰۲۱-۱۲۳۴۵۶۷۸</strong>
+                            </div><!--widget-contact end-->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-payment">
+                                <div class="wid-payment">
+                                    <h4>روش‌های پرداخت</h4>
+                                    <img src="{% static 'assets/images/imgs.png' %}" alt="">
+                                </div>
+                                <div class="wid-payment">
+                                    <h4>دانلود اپلیکیشن</h4>
+                                    <ul>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn1.png' %}" alt=""></a></li>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn2.png' %}" alt=""></a></li>
+                                    </ul>
+                                </div>
+                            </div><!--widget-payment end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-footer">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>© تمامی حقوق محفوظ است. Designed &amp; Developed by <a href="https://sepehrbaghernezhadian.ir/" target="_blank" rel="noopener">Sepehr Baghernejadian</a></p>
+                            </div><!--copyright end-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="find-us text-right">
+                                <h5>ما را دنبال کنید:</h5>
+                                <ul class="social-links-text">
+                                    <li><a href="#" title="">فیسبوک</a></li>
+                                    <li><a href="#" title="">توییتر</a></li>
+                                    <li><a href="https://www.instagram.com/sepi__en/" target="_blank" rel="noopener" title="sepi__en">اینستاگرام</a></li>
+                                </ul>
+                            </div><!--find-us end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer><!--footer end-->
+        
+    </div><!--wrapper end-->
+
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/slick/slick.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+
+</body>
+</html>

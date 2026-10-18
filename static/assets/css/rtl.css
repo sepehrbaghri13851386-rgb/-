@@ -1,0 +1,564 @@
+/* ============================================================
+   RTL / Persian overrides for DeliTaste template
+   Load AFTER style.css and responsive.css
+   ============================================================ */
+
+/* ---------- Persian font: Vazirmatn ---------- */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Base ---------- */
+html {
+  direction: rtl;
+}
+body,
+h1, h2, h3, h4, h5, h6,
+p, a, span, li, input, button, select, textarea, label, strong, blockquote {
+  font-family: "Vazirmatn", "Montserrat", sans-serif;
+}
+body {
+  letter-spacing: 0;
+}
+/* Persian text must not be upper/lower-cased and needs no tracking */
+.text-uppercase,
+.text-capitalize,
+.responsive-mobile-menu ul li a {
+  text-transform: none;
+  letter-spacing: 0;
+}
+header nav ul li a {
+  text-transform: none;
+}
+
+/* ---------- Header ---------- */
+header nav {
+  padding-left: 0;
+  padding-right: 100px;
+}
+header nav ul li {
+  margin-right: 0;
+  margin-left: 47px;
+}
+header nav ul li:last-child {
+  margin-left: 0;
+}
+header nav ul li a {
+  padding: 55px 0 53px 10px;
+}
+header nav ul li a:before {
+  left: auto;
+  right: 100%;
+}
+header .oth-lnks li {
+  margin-right: 0;
+  margin-left: 41px;
+}
+header .oth-lnks li:last-child {
+  margin-left: 0;
+}
+header .oth-lnks li a > img {
+  margin-left: 0;
+  margin-right: 9px;
+}
+header .oth-lnks li .cart-item-num {
+  right: auto;
+  left: -16px;
+}
+header .menu-btn {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Search bar drops from the right edge */
+.search-bar {
+  left: auto;
+  right: 0;
+}
+
+/* Mobile menu slides from the right */
+.responsive-mobile-menu {
+  left: auto;
+  right: -250px;
+}
+.responsive-mobile-menu.active {
+  left: auto;
+  right: 0;
+}
+.responsive-mobile-menu ul,
+.responsive-mobile-menu ul li,
+.responsive-mobile-menu ul li a {
+  float: none;
+}
+.responsive-mobile-menu ul li a:before {
+  right: auto;
+  left: 10px;
+}
+
+/* ---------- Hero banner form: button moves to the left ---------- */
+.main-banner .banner-text form button {
+  right: auto;
+  left: 8px;
+}
+
+/* ---------- Featured restaurants: info box & hover badges ---------- */
+.featured-sec .featured-item .feat-optz {
+  left: auto;
+  right: 0;
+  text-align: right;
+}
+.featured-sec .featured-item .feat-optz > span {
+  border-radius: 50px 0 0 50px;
+}
+.featured-sec .featured-item .feat-optz > h2 {
+  padding-left: 0;
+  padding-right: 40px;
+}
+.featured-sec .featured-item .ftz {
+  right: auto;
+  left: -160px;
+}
+.featured-sec .featured-item .ftz:hover {
+  left: 0;
+}
+.featured-sec .featured-item .ftz li {
+  border-radius: 0 50px 50px 0;
+  padding-right: 0;
+  padding-left: 20px;
+}
+
+/* ---------- Why-us / promo / app sections ---------- */
+.order-appliction .vl-fzt li .vs-info {
+  padding-left: 0;
+  padding-right: 25px;
+}
+.order-appliction .btnss li {
+  margin-right: 0;
+  margin-left: 18px;
+}
+.order-appliction .btnss li:last-child {
+  margin-left: 0;
+}
+
+/* ---------- Newsletter: button moves to the left ---------- */
+.newsletter-sec form {
+  padding-left: 0;
+  padding-right: 87px;
+}
+.newsletter-sec form button {
+  right: auto;
+  left: 8px;
+}
+
+/* ---------- Blog cards ---------- */
+.blog-posts .blog .blog-info .meta li {
+  margin-right: 0;
+  margin-left: 7px;
+}
+.blog-posts .blog .blog-info .meta li:first-child {
+  padding-left: 12px;
+  padding-right: 0;
+}
+.blog-posts .blog .blog-info .meta li:last-child {
+  padding-right: 12px;
+  padding-left: 0;
+  margin-left: 0;
+}
+.blog-posts .blog .blog-info .meta li:before {
+  left: auto;
+  right: 100%;
+}
+.blog-posts .blog .blog-info .meta li img + a {
+  padding-left: 0;
+  padding-right: 8px;
+}
+.blog-posts .blog.single .blog-info blockquote {
+  padding: 44px 70px 44px 20px;
+}
+.blog-posts .blog-author .blog-author-info {
+  text-align: left;
+}
+
+/* ---------- Contact form response ---------- */
+.response .text-info img {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* ---------- Footer ---------- */
+footer .top-footer .phone-div {
+  text-align: center;
+}
+footer .bottom-footer .find-us {
+  text-align: left;
+}
+footer .bottom-footer .find-us > h5 {
+  margin-right: 0;
+  margin-left: 12px;
+}
+footer .bottom-footer .find-us .social-links-text li {
+  padding: 0 22px 0 15px;
+}
+footer .bottom-footer .find-us .social-links-text li:first-child {
+  padding-right: 0;
+}
+footer .bottom-footer .find-us .social-links-text li:last-child {
+  padding-left: 0;
+  padding-right: 22px;
+}
+footer .bottom-footer .find-us .social-links-text li:before {
+  left: auto;
+  right: 100%;
+}
+footer .bottom-footer .find-us .social-links-text li:last-child:before {
+  display: block;
+}
+footer .bottom-footer .find-us .social-links-text li:first-child:before {
+  display: none;
+}
+
+/* ---------- Sidebar / filters on inner pages ---------- */
+.widget-filter {
+  text-align: right;
+}
+
+/* ---------- Generic logical helpers used by the template ---------- */
+.btn-default2 i {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* Bootstrap sets text-align:left on body — flip it for RTL */
+body {
+  text-align: right;
+}
+.text-left {
+  text-align: right !important;
+}
+.text-right {
+  text-align: left !important;
+}
+
+/* Decorative Latin fonts have no Persian glyphs — make sure headings use Vazirmatn */
+.section-title > span,
+.services-sec .service h2,
+.sidebar.left-sidebar .widget-title,
+.checkout-head ul li > h2 span,
+.promotion > h2,
+.main-banner .banner-text h2,
+.order-appliction h2 {
+  font-family: "Vazirmatn", "Montserrat", sans-serif;
+}
+
+/* ============================================================
+   Global photographed background (hamburger) + dark theme
+   One shared photo sits behind every section of every page.
+   ============================================================ */
+html {
+  background-color: #101218;
+}
+
+body {
+  background-color: #101218;
+  background-image: linear-gradient(rgba(10, 12, 16, 0.74), rgba(10, 12, 16, 0.74)), url(../images/hamburger-stadiumasli.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #c2c8d2;
+}
+
+/* The single page photo replaces the old per-section photos */
+.fixed-bg,
+.bg1,
+.bg2,
+.bg3 {
+  background-image: none !important;
+}
+
+/* Keep the hero photo brighter than the rest of the page */
+.main-banner {
+  background-image: linear-gradient(rgba(10, 12, 16, 0.30), rgba(10, 12, 16, 0.30)), url(../images/hamburger-stadiumasli.jpg);
+}
+
+/* Header + nav must stay readable over the photo */
+header {
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+header nav ul li a,
+header nav ul li a:hover,
+header .oth-lnks li a,
+header .oth-lnks li a > img {
+  color: #fff;
+}
+
+/* Cards / panels that stay on top of the photo */
+.our-proptz .proptz,
+.services-sec .service {
+  background-color: rgba(24, 27, 34, 0.92);
+}
+
+/* Light panels switched to the dark palette */
+.popular-dishes .filters-nav li a.selected,
+.popular-dishes .filters-nav li a:hover {
+  background-color: #2c313c;
+  color: #fff;
+}
+.listings-nav,
+.deli-pagination ul li a.active,
+.deli-pagination ul li a:hover {
+  color: #fff;
+}
+
+/* Form fields sit directly on the photo */
+.form-group .form-control,
+.form-group textarea {
+  background-color: rgba(17, 19, 25, 0.55);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.form-group .form-control::placeholder,
+.form-group textarea::placeholder {
+  color: #9aa2af;
+}
+
+/* ===== Header account menu: round avatar + dropdown (sits at the left corner) ===== */
+header .auth-menu {
+  vertical-align: middle;
+}
+header .auth-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+  line-height: 1;
+}
+header .auth-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8bb52, #d9a736);
+  color: #fff;
+  font-weight: 700;
+  font-size: 19px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 6px 16px rgba(217, 167, 54, 0.4);
+  transition: box-shadow .25s ease, transform .25s ease;
+  user-select: none;
+}
+header .auth-toggle:hover .auth-avatar {
+  box-shadow: 0 8px 22px rgba(217, 167, 54, 0.6);
+  transform: translateY(-1px);
+}
+header .auth-caret {
+  font-size: 13px;
+  opacity: .85;
+  transition: transform .25s ease;
+}
+header .auth-menu.is-open .auth-caret {
+  transform: rotate(180deg);
+}
+header .auth-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  right: auto;
+  width: 250px;
+  background: #fff;
+  border: 1px solid #eef0f5;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(35, 38, 48, 0.28);
+  overflow: hidden;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .22s ease, transform .22s ease, visibility .22s;
+  z-index: 999;
+}
+header .auth-menu.is-open .auth-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+header .auth-dropdown__head {
+  padding: 20px 18px 16px;
+  background: #232630;
+  text-align: center;
+}
+header .auth-dropdown__head .auth-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 23px;
+  margin: 0 auto 10px;
+}
+header .auth-dropdown__head strong {
+  display: block;
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 700;
+  text-transform: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+header .auth-dropdown__head small {
+  display: block;
+  color: #9aa4b5;
+  font-size: 12px;
+  margin-top: 3px;
+  text-transform: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+header .auth-dropdown__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  text-align: right;
+}
+header .auth-dropdown__list li {
+  margin: 0;
+  padding: 0;
+}
+header .auth-dropdown__list li a,
+header .auth-dropdown .logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  color: #4b5463;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-align: right;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+header .auth-dropdown__list li a i,
+header .auth-dropdown .logout-btn i {
+  font-size: 15px;
+  width: 18px;
+  text-align: center;
+}
+header .auth-dropdown__list li a:hover {
+  background: #faf6ec;
+  color: #b9871b;
+}
+header .auth-dropdown .logout-form {
+  display: block;
+  margin: 0;
+}
+header .auth-dropdown .logout-btn:hover {
+  background: #fdf1f1;
+  color: #dc2626;
+}
+/* ===== کارت‌های «پیک شوید» و «همکار شوید»: هر دو دقیقاً هم‌اندازه ===== */
+.offer-post .offer-img {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  height: 260px !important;
+  aspect-ratio: auto !important;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.offer-post .arrow img {
+  display: none !important;
+}
+.offer-post .arrow svg {
+  display: block;
+  margin: auto;
+  pointer-events: none;
+}
+
+/* ===== آیکن تلفن زرد فوتر: دقیقاً وسط دایره (همهٔ صفحه‌ها) ===== */
+.phone-div .phone-circle {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.phone-div .phone-circle svg {
+  position: static !important;
+  inset: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  display: block;
+}
+.phone-div .phone-circle .ext-link {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+/* RTL: the LTR offsets (left:13.5 / left:22) push both circles to the right —
+   neutralize them and center with auto margins instead */
+footer .top-footer .phone-div .border-circle {
+  display: block;
+  margin: 0 auto;
+  left: 0;
+}
+footer .top-footer .phone-div .border-circle .phone-circle {
+  display: block;
+  margin: 0 auto;
+  left: 0;
+}

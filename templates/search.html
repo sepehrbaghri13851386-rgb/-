@@ -1,0 +1,398 @@
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% if q %}جستجو: {{ q }}{% else %}جستجو{% endif %} | رستوران اصلی</title>
+    <meta name="description" content="رستوران اصلی - سفارش آنلاین غذا از بهترین رستوران‌ها و کافه‌ها با ارسال سریع به درِ خانه شما" />
+    <meta name="author" content="George_Fx">
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=4">
+    <style>
+
+        /* ---------- جستجو ---------- */
+        .sr-form{background:rgba(23,26,33,.74);border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.28)}
+        .sr-form__row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+        .sr-form__row input[type=search]{flex:1 1 260px;min-width:0;height:52px;border:1px solid rgba(255,255,255,.13);border-radius:14px;background:rgba(11,13,18,.8);color:#fff;padding:0 18px;font-family:inherit;font-size:15px;outline:0;transition:border-color .25s ease,box-shadow .25s ease}
+        .sr-form__row input[type=search]::placeholder{color:#8f97a6}
+        .sr-form__row input[type=search]:focus{border-color:#d9a736;box-shadow:0 0 0 3px rgba(217,167,54,.18)}
+        .sr-form__row select{height:52px;border-radius:14px;border:1px solid rgba(255,255,255,.13);background:rgba(11,13,18,.8);color:#e7eaf1;padding:0 14px;font-family:inherit;font-size:14px;outline:0}
+        .sr-form__row select option{background:#171a21;color:#e7eaf1}
+        .sr-form__row button{height:52px;border:0;cursor:pointer;font-family:inherit;position:relative;padding:0 34px}
+        .sr-form__row button span{position:absolute}
+        .sr-form__hint{margin:12px 2px 0;color:#9aa2af;font-size:12.5px}
+        .sr-form__hint b{color:#d9a736}
+
+        .sr-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0 0}
+        .sr-chips__label{color:#9aa2af;font-size:13px;margin-left:4px}
+        .sr-chip{display:inline-block;padding:7px 16px;border-radius:30px;font-size:13px;color:#d8dce5;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:all .25s ease}
+        .sr-chip:hover{color:#232630;background:#d9a736;border-color:#d9a736}
+        .sr-chip.is-on{background:linear-gradient(135deg,#e8bb52,#d9a736);color:#232630;border-color:transparent;font-weight:700}
+
+        .sr-summary{margin:0 0 30px;color:#c2c8d2;font-size:15px;line-height:2.1}
+        .sr-summary b{color:#fff}
+
+        .sr-group{margin:0 0 46px}
+        .sr-group__head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+        .sr-group__head h3{margin:0;font-size:21px;color:#fff}
+        .sr-group__badge{background:linear-gradient(135deg,#e8bb52,#d9a736);color:#232630;font-size:12px;font-weight:700;padding:5px 13px;border-radius:30px}
+        .sr-group__count{color:#9aa2af;font-size:13px;margin-right:auto}
+
+        .sr-card{background:#fff;border-radius:20px;overflow:hidden;margin-bottom:30px;box-shadow:0 8px 28px rgba(0,0,0,.28);transition:transform .3s ease,box-shadow .3s ease;text-align:center}
+        .sr-card:hover{transform:translateY(-8px);box-shadow:0 20px 44px rgba(0,0,0,.38)}
+        .sr-card__img{position:relative;aspect-ratio:1/1;background:#232630;overflow:hidden}
+        .sr-card__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+        .sr-card:hover .sr-card__img img{transform:scale(1.08)}
+        .sr-card__img::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(to top,rgba(35,38,48,.6),transparent);pointer-events:none}
+        .sr-card__cat{position:absolute;bottom:12px;right:12px;z-index:2;background:rgba(255,255,255,.92);color:#232630;font-size:12px;padding:4px 12px;border-radius:30px}
+        .sr-card__badge{position:absolute;top:12px;left:12px;z-index:2;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:30px}
+        .sr-card__body{padding:22px 20px 24px}
+        .sr-card__body h4{font-size:18px;margin:0 0 8px;color:#232630}
+        .sr-card__body h4 a{color:#232630}
+        .sr-card__body h4 a:hover{color:#d9a736}
+        .sr-card__desc{color:#7b7f8a;font-size:14px;line-height:1.9;min-height:54px;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .sr-card__rate{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;padding:6px 14px;border:1px solid #eceef2;background:#fafafb;border-radius:30px;font-size:13px;color:#7b7f8a}
+        .sr-card__price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:18px;min-height:32px}
+        .sr-card__price strong{font-size:20px;color:#232630}
+        .sr-card__price strong small{font-size:13px;font-weight:400;color:#7b7f8a}
+        .sr-card__price del{font-size:15px;color:#a3a6ae}
+        .sr-card form{margin:0}
+        .sr-card .btn-default{border:0;cursor:pointer;font-family:inherit;position:relative;display:inline-block}
+        .sr-card .btn-default span{position:absolute}
+        .stars{--r:0;display:inline-block;font-size:15px;letter-spacing:2px;line-height:1;background:linear-gradient(to left,#d9a736 calc(var(--r) / 5 * 100%),rgba(150,155,168,.4) 0);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+        .sr-empty{background:rgba(23,26,33,.72);border:1px dashed rgba(255,255,255,.15);border-radius:22px;padding:46px 26px;text-align:center;color:#c2c8d2}
+        .sr-empty h3{color:#fff;margin:0 0 12px;font-size:21px}
+        .sr-empty p{margin:0 auto;font-size:14.5px;line-height:2.1;max-width:640px}
+        .sr-note{color:#9aa2af;font-size:13px;margin:0 0 18px}
+        @media (max-width:575px){.sr-form__row button{width:100%}.sr-group__count{margin-right:0}}
+    </style>
+</head>
+
+<body>
+
+    <div class="page-loading">
+        <img src="{% static 'assets/images/loader.gif' %}" alt="" />
+    </div><!--page-loading end-->
+
+    <div class="wrapper">
+
+        <header>
+            <div class="container-fluid">
+                <div class="header-content d-flex flex-wrap align-items-center">
+                    <div class="logo">
+                        <a href="{% url 'index' %}" title="">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="">
+                        </a>
+                    </div><!--logo end-->
+                    <nav>
+                        <ul>
+                            <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                            <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                            <li><a href="#" title="">صفحات</a>
+                                <ul>
+                                    <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                                    <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                                    <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                                    <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                                    <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                                    <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                                    <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                                    <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                            <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+                        </ul>
+                    </nav><!--navigation end-->
+                    <div class="menu-btn">
+                        <span class="bar1"></span>
+                        <span class="bar2"></span>
+                        <span class="bar3"></span>
+                    </div><!--menu-bar end-->
+                    <ul class="oth-lnks ml-auto">
+                        <li><img src="{% static 'assets/images/icons/phone.svg' %}" alt="">۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><a href="#" title="" class="search-icon"><img src="{% static 'assets/images/icons/search.svg' %}" alt=""></a></li>
+                        <li><a href="{% url 'cart' %}" title="سبد خرید" class="cart-ico"><img src="{% static 'assets/images/icons/cart.svg' %}" alt=""></a><span class="cart-item-num">{{ cart_totals.count|intcomma }}</span></li>
+                        {% include 'partials/auth_menu.html' %}
+                    </ul><!--oth-lnks end-->
+                </div><!--header-content end-->
+                <div class="search-bar">
+                    <div class="container">
+                        <form method="get" action="{% url 'search' %}" role="search">
+                            <input type="hidden" name="scope" value="all">
+                            <input type="text" name="q" placeholder="جستجو در همهٔ بخش‌ها">
+                        </form>
+                    </div>
+                </div><!--search-bar end-->
+            </div>
+        </header><!--header end-->
+
+        <div class="responsive-mobile-menu">
+            <ul>
+                <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                <li><a href="#" title="">صفحات</a>
+                    <ul>
+                        <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                        <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                        <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                        <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                        <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                        <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                        <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                        <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+            </ul>
+        </div><!--responsive-mobile-menu end-->
+
+        <section class="pager-section text-center">
+            <div class="fixed-bg bg4"></div>
+            <div class="container">
+                <div class="pager-head">
+                    <h2>{% if cat_name %}دستهٔ {{ cat_name }}{% elif q %}نتیجه جستجوی «{{ q }}»{% else %}جستجو{% endif %}</h2>
+                    <ul>
+                        <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                        <li><span>جستجو</span></li>
+                    </ul>
+                </div><!--pager-head end-->
+            </div>
+        </section><!--pager-section end-->
+
+        <section class="sec-block sr-section">
+            <div class="container">
+
+                <form class="sr-form" method="get" action="{% url 'search' %}" role="search">
+                    <div class="sr-form__row">
+                        <input type="search" name="q" value="{{ q }}" placeholder="نام غذا، دسته‌بندی یا توضیحات…" aria-label="عبارت جستجو">
+                        <select name="scope" aria-label="محدودهٔ جستجو">
+                            <option value="all"{% if scope == 'all' %} selected{% endif %}>همهٔ بخش‌های سایت</option>
+                            <option value="food"{% if scope == 'food' %} selected{% endif %}>غذاهای صفحهٔ اصلی</option>
+                            <option value="item"{% if scope == 'item' %} selected{% endif %}>منوی رستوران</option>
+                        </select>
+                        <button type="submit" class="btn-default gradient-bg half-radius">جستجو<span></span></button>
+                    </div>
+                    <p class="sr-form__hint">نام یک <b>دسته‌بندی</b> را هم می‌توانید بنویسید؛ در آن صورت همهٔ موارد همان دسته نمایش داده می‌شود.</p>
+                </form>
+
+                <div class="sr-chips">
+                    <span class="sr-chips__label">دسته‌بندی‌ها:</span>
+                    {% for c in food_categories %}
+                    <a class="sr-chip{% if cat_id == c.pk|stringformat:'s' and scope != 'item' %} is-on{% endif %}" href="{% url 'search' %}?cat={{ c.pk }}&amp;scope=food">{{ c.name }}</a>
+                    {% endfor %}
+                    {% for c in item_categories %}
+                    <a class="sr-chip{% if cat_id == c.pk|stringformat:'s' and scope == 'item' %} is-on{% endif %}" href="{% url 'search' %}?cat={{ c.pk }}&amp;scope=item">{{ c.name }}</a>
+                    {% endfor %}
+                </div>
+
+                {% if searched %}
+                <p class="sr-summary" style="margin-top:30px">
+                    {% if cat_name %}
+                    همهٔ موارد دستهٔ «<b>{{ cat_name }}</b>»
+                    {% else %}
+                    نتایج جستجوی «<b>{{ q }}</b>»
+                    {% endif %}
+                    در <b>{% if scope == 'food' %}غذاهای صفحهٔ اصلی{% elif scope == 'item' %}منوی رستوران{% else %}همهٔ بخش‌های سایت{% endif %}</b>
+                    — <b>{{ result_total }}</b> مورد یافت شد.
+                </p>
+                {% else %}
+                <p class="sr-summary" style="margin-top:30px">
+                    عبارت مورد نظرتان را بنویسید. هر جستجو فقط روی بخش مربوط به همان صفحه انجام می‌شود؛
+                    مثلاً در صفحهٔ اصلی بین <b>غذاهای محبوب</b> و در صفحهٔ جزئیات رستوران بین <b>منو</b> می‌گردد.
+                </p>
+                {% endif %}
+
+                {% if food_groups %}
+                {% if scope == 'all' %}
+                <h3 class="sr-note">بخش غذاهای صفحهٔ اصلی</h3>
+                {% endif %}
+                {% for g in food_groups %}
+                <div class="sr-group">
+                    <div class="sr-group__head">
+                        <h3>{{ g.category.name }}</h3>
+                        {% if g.match %}<span class="sr-group__badge">همهٔ این دسته</span>{% endif %}
+                        <span class="sr-group__count">{{ g.items|length }} مورد</span>
+                    </div>
+                    <div class="row">
+                        {% for food in g.items %}
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="sr-card">
+                                <div class="sr-card__img">
+                                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+                                    {% if food.has_discount %}<span class="sr-card__badge">{{ food.discount_percent }}٪ تخفیف</span>{% endif %}
+                                    <span class="sr-card__cat">{{ food.category.name }}</span>
+                                </div>
+                                <div class="sr-card__body">
+                                    <h4><a href="{% url 'restaurant_details' %}" title="">{{ food.name }}</a></h4>
+                                    <p class="sr-card__desc">{{ food.description }}</p>
+                                    <div class="sr-card__rate">
+                                        <span class="stars" style="--r:{% if food.comment_count %}{{ food.avg_rating|unlocalize }}{% else %}0{% endif %}">★★★★★</span>
+                                        <span>{% if food.comment_count %}{{ food.avg_rating|floatformat:1 }} · {{ food.comment_count }} نظر{% else %}اولین نظر را بنویسید{% endif %}</span>
+                                    </div>
+                                    <div class="sr-card__price">
+                                        {% if food.has_discount %}<del>{{ food.price|intcomma }}</del>{% endif %}
+                                        <strong>{{ food.final_price|intcomma }} <small>تومان</small></strong>
+                                    </div>
+                                    <form method="post" action="{% url 'cart_add' food.id %}">{% csrf_token %}
+                                        <button type="submit" class="btn-default gradient-bg half-radius">افزودن به سبد<span></span></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% if item_groups %}
+                {% if scope == 'all' %}
+                <h3 class="sr-note">بخش منوی رستوران</h3>
+                {% endif %}
+                {% for g in item_groups %}
+                <div class="sr-group">
+                    <div class="sr-group__head">
+                        <h3>{{ g.category.name }}</h3>
+                        {% if g.match %}<span class="sr-group__badge">همهٔ این دسته</span>{% endif %}
+                        <span class="sr-group__count">{{ g.items|length }} مورد</span>
+                    </div>
+                    <div class="row">
+                        {% for it in g.items %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="sr-card">
+                                <div class="sr-card__img">
+                                    <img src="{{ it.image.url }}" alt="{{ it.title }}">
+                                    <span class="sr-card__cat">{{ it.category.name }}</span>
+                                </div>
+                                <div class="sr-card__body">
+                                    <h4><a href="{% url 'details_item' it.pk %}" title="">{{ it.title }}</a></h4>
+                                    <p class="sr-card__desc">{{ it.description }}</p>
+                                    <div class="sr-card__rate">
+                                        <span class="stars" style="--r:{% if it.comment_count %}{{ it.avg_r|unlocalize }}{% else %}0{% endif %}">★★★★★</span>
+                                        <span>{% if it.comment_count %}{{ it.avg_r }} · {{ it.comment_count }} نظر{% else %}اولین نظر را بنویسید{% endif %}</span>
+                                    </div>
+                                    <div class="sr-card__price">
+                                        {% if it.price %}<strong>{{ it.price|intcomma }} <small>تومان</small></strong>{% endif %}
+                                    </div>
+                                    <a href="{% url 'details_item' it.pk %}" title="" class="btn-default gradient-bg half-radius">مشاهده و نظرات<span></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% if searched and not result_total %}
+                <div class="sr-empty">
+                    <h3>چیزی پیدا نشد</h3>
+                    <p>
+                        برای «<b>{{ q }}</b>» در
+                        {% if scope == 'food' %}غذاهای صفحهٔ اصلی{% elif scope == 'item' %}منوی رستوران{% else %}این بخش‌ها{% endif %}
+                        موردی نبود. املای عبارت را بررسی کنید، یکی از دسته‌بندی‌های بالا را انتخاب کنید،
+                        یا محدودهٔ جستجو را به «همهٔ بخش‌های سایت» تغییر دهید.
+                    </p>
+                </div>
+                {% endif %}
+
+            </div>
+        </section><!--search results end-->
+
+        <footer>
+            <div class="top-footer">
+                <div class="fixed-bg bg3"></div>
+                <div class="phone-div">
+                    <div class="border-circle">
+                        <div class="phone-circle">
+                            <a href="#" title="" class="ext-link"></a>
+                            <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.3333 14.1V16.6C18.3343 16.8321 18.2867 17.0618 18.1937 17.2745C18.1008 17.4871 17.9644 17.678 17.7934 17.8349C17.6224 17.9918 17.4205 18.1113 17.2006 18.1856C16.9808 18.26 16.7478 18.2876 16.5167 18.2667C13.9523 17.9881 11.4891 17.1118 9.32498 15.7084C7.31151 14.4289 5.60443 12.7218 4.32498 10.7084C2.91663 8.53436 2.04019 6.05919 1.76665 3.48336C1.74583 3.25291 1.77321 3.02066 1.84707 2.80138C1.92092 2.5821 2.03963 2.3806 2.19562 2.20971C2.35162 2.03882 2.54149 1.90228 2.75314 1.80879C2.9648 1.7153 3.1936 1.66691 3.42499 1.66669H5.92498C6.32941 1.66271 6.72148 1.80592 7.02812 2.06964C7.33476 2.33335 7.53505 2.69956 7.59165 3.10002C7.69717 3.90008 7.89286 4.68563 8.17498 5.44169C8.2871 5.73996 8.31137 6.06412 8.24491 6.37576C8.17844 6.6874 8.02404 6.97345 7.79998 7.20002L6.74165 8.25836C7.92795 10.3446 9.65536 12.0721 11.7417 13.2584L12.8 12.2C13.0266 11.976 13.3126 11.8216 13.6242 11.7551C13.9359 11.6886 14.26 11.7129 14.5583 11.825C15.3144 12.1071 16.0999 12.3028 16.9 12.4084C17.3048 12.4655 17.6745 12.6694 17.9388 12.9813C18.203 13.2932 18.3435 13.6913 18.3333 14.1Z" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/logo.png' %}" alt="">
+                                <h4>ساعات کاری</h4>
+                                <p>شنبه تا جمعه: ۹ صبح تا ۱۰ شب <br /> جمعه: ۱۰ صبح تا ۸ شب</p>
+                            </div><!--widget-about end-->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="widget widget-contact text-center">
+                                <h2><span>برای سفارش</span> با ما تماس بگیرید!</h2>
+                                <p>خجالت نکشید، ما گاز نمی‌گیریم :)</p>
+                                <strong>۰۲۱-۱۲۳۴۵۶۷۸</strong>
+                            </div><!--widget-contact end-->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-payment">
+                                <div class="wid-payment">
+                                    <h4>روش‌های پرداخت</h4>
+                                    <img src="{% static 'assets/images/imgs.png' %}" alt="">
+                                </div>
+                                <div class="wid-payment">
+                                    <h4>دانلود اپلیکیشن</h4>
+                                    <ul>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn1.png' %}" alt=""></a></li>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn2.png' %}" alt=""></a></li>
+                                    </ul>
+                                </div>
+                            </div><!--widget-payment end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-footer">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>© تمامی حقوق محفوظ است. Designed &amp; Developed by <a href="https://sepehrbaghernezhadian.ir/" target="_blank" rel="noopener">Sepehr Baghernejadian</a></p>
+                            </div><!--copyright end-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="find-us text-right">
+                                <h5>ما را دنبال کنید:</h5>
+                                <ul class="social-links-text">
+                                    <li><a href="#" title="">فیسبوک</a></li>
+                                    <li><a href="#" title="">توییتر</a></li>
+                                    <li><a href="https://www.instagram.com/sepi__en/" target="_blank" rel="noopener" title="sepi__en">اینستاگرام</a></li>
+                                </ul>
+                            </div><!--find-us end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer><!--footer end-->
+
+    </div><!--wrapper end-->
+
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/slick/slick.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+
+</body>
+</html>

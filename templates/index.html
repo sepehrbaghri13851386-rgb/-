@@ -1,0 +1,896 @@
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>رستوران اصلی | سفارش آنلاین غذا</title>
+    <meta name="description" content="رستوران اصلی - سفارش آنلاین غذا از بهترین رستوران‌ها و کافه‌ها با ارسال سریع به درِ خانه شما" />
+    <meta name="author" content="George_Fx">
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=4">
+    <style>
+        /* ---- happy customers slider ---- */
+        .testimonial-by img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 18px rgba(35,38,48,.15); }
+        .hc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; margin-top: 10px; }
+        .hc-card { position: relative; background: #fff; border-radius: 20px; padding: 34px 28px 26px; text-align: right; box-shadow: 0 8px 28px rgba(35,38,48,.08); border: 1px solid #f0f2f7; display: flex; flex-direction: column; transition: transform .3s ease, box-shadow .3s ease; }
+        .hc-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(35,38,48,.14); }
+        .hc-quote { position: absolute; top: 18px; left: 22px; font-size: 34px; color: #D8AB37; opacity: .25; }
+        .hc-text { flex: 1; color: #4b5463; line-height: 2.1; font-size: 15px; margin: 0 0 22px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+        .hc-by { display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px dashed #e3e8f1; }
+        .hc-by img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; box-shadow: 0 0 0 3px #fff, 0 0 0 5px #D8AB37; }
+        .hc-by h4 { margin: 0 0 2px; font-size: 16px; font-weight: 700; color: #232630; }
+        .hc-by span { font-size: 12px; color: #9aa4b5; }
+        .hc-empty { align-items: center; text-align: center; grid-column: 1 / -1; }
+        .hc-empty .hc-text { flex: none; max-width: 520px; display: block; }
+        .hc-more { margin-top: 34px; }
+        /* ---- food cards (popular dishes) ---- */
+        .popular-dishes .food-card{background:#fff;border-radius:20px;overflow:hidden;margin-bottom:30px;box-shadow:0 8px 28px rgba(35,38,48,.08);transition:transform .3s ease,box-shadow .3s ease;text-align:center}
+        .popular-dishes .food-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(35,38,48,.18)}
+        .popular-dishes .food-card__img{position:relative;overflow:hidden;margin:0;aspect-ratio:1/1;background:#232630}
+        .popular-dishes .food-card__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+        .popular-dishes .food-card:hover .food-card__img img{transform:scale(1.08)}
+        .popular-dishes .food-card__img::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(to top,rgba(35,38,48,.55),transparent);pointer-events:none}
+        .popular-dishes .food-card__cat{position:absolute;bottom:12px;right:12px;z-index:2;background:rgba(255,255,255,.92);color:#232630;font-size:12px;padding:4px 12px;border-radius:30px}
+        .popular-dishes .food-card__badge{position:absolute;top:12px;left:12px;z-index:2;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:30px;box-shadow:0 4px 12px rgba(220,38,38,.4)}
+        .popular-dishes .food-card__body{padding:22px 20px 24px}
+        .popular-dishes .food-card__body h3{font-size:19px;margin:0 0 8px}
+        .popular-dishes .food-card__body h3 a{color:#232630}
+        .popular-dishes .food-card__body h3 a:hover{color:#d9a736}
+        .popular-dishes .food-card__desc{color:#7b7f8a;font-size:14px;line-height:1.9;min-height:54px;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .popular-dishes .food-card__price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:18px;min-height:32px}
+        .popular-dishes .food-card__price strong{font-size:21px;color:#232630}
+        .popular-dishes .food-card__price strong small{font-size:13px;font-weight:400;color:#7b7f8a}
+        .popular-dishes .food-card__price del{font-size:15px;color:#a3a6ae}
+        .popular-dishes form.add-to-cart-form{margin:0}
+        .popular-dishes button.btn-default{border:0;cursor:pointer;font-family:inherit}
+        .popular-dishes button.btn-default span{position:absolute}
+
+        /* ---- comments: shared ---- */
+        .stars{--r:0;display:inline-block;font-size:15px;letter-spacing:2px;line-height:1;background:linear-gradient(to left,#d9a736 calc(var(--r) / 5 * 100%),rgba(150,155,168,.4) 0);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+        .cm-avatar{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#e8bb52,#d9a736);color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(217,167,54,.35)}
+        .cm-empty{text-align:center;color:#a3a6ae;padding:26px 0;font-size:14px;margin:0}
+
+        /* ---- comments: button on food card ---- */
+        .popular-dishes .food-card__rate{margin:0 0 14px}
+        .popular-dishes .food-card__rating{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid #eceef2;background:#fafafb;border-radius:30px;font-family:inherit;font-size:13px;color:#7b7f8a;cursor:pointer;transition:all .25s ease}
+        .popular-dishes .food-card__rating:hover{border-color:#d9a736;background:#fff;color:#232630;box-shadow:0 4px 14px rgba(217,167,54,.2)}
+
+        /* ---- comments: modal ---- */
+        .cm-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(35,38,48,.65);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
+        .cm-modal.is-open{opacity:1;visibility:visible}
+        .cm-dialog{background:#fff;border-radius:24px;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;text-align:right;transform:translateY(24px) scale(.98);transition:transform .3s ease;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+        .cm-modal.is-open .cm-dialog{transform:none}
+        .cm-head{position:relative;padding:22px 26px 18px;background:#232630;color:#fff}
+        .cm-head h3{margin:0 0 8px;font-size:20px;color:#fff;padding-left:44px}
+        .cm-head__sum{display:flex;align-items:center;gap:10px;font-size:13px;color:#c9ccd4}
+        .cm-close{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;line-height:1;cursor:pointer;transition:background .25s ease}
+        .cm-close:hover{background:#d9a736}
+        .cm-body{flex:1;overflow-y:auto;padding:8px 26px}
+        .cm-list{list-style:none;margin:0;padding:0}
+        .cm-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px dashed #e6e8ee}
+        .cm-item:last-child{border-bottom:0}
+        .cm-item.is-new{animation:cmIn .5s ease}
+        @keyframes cmIn{from{opacity:0;transform:translateY(-10px);background:#fff8e6}to{opacity:1;transform:none}}
+        .cm-item__main{flex:1;min-width:0}
+        .cm-item__top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+        .cm-item__name{font-weight:700;color:#232630;font-size:15px}
+        .cm-item__time{font-size:12px;color:#a3a6ae}
+        .cm-item__text{margin:8px 0 0;color:#5b5f6b;font-size:14px;line-height:2;word-break:break-word;white-space:pre-line}
+        .cm-form{padding:20px 26px 24px;background:#f7f7f9;border-top:1px solid #eceef2}
+        .cm-form h4{font-size:16px;margin:0 0 14px;color:#232630}
+        .cm-form__row{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+        .cm-form__row input[type=text]{flex:1;min-width:0}
+        .cm-form input[type=text],.cm-form textarea{width:100%;border:1px solid #e1e3ea;border-radius:12px;padding:11px 16px;font-family:inherit;font-size:14px;background:#fff;color:#232630;outline:0;transition:border-color .25s ease,box-shadow .25s ease}
+        .cm-form input[type=text]:focus,.cm-form textarea:focus{border-color:#d9a736;box-shadow:0 0 0 3px rgba(217,167,54,.15)}
+        .cm-form textarea{min-height:90px;resize:vertical;margin-bottom:12px;display:block}
+        .cm-rate{display:inline-flex;flex-direction:row-reverse;gap:2px;flex:0 0 auto}
+        .cm-rate input{display:none}
+        .cm-rate label{font-size:28px;color:#d5d7de;cursor:pointer;line-height:1;margin:0;transition:color .15s ease}
+        .cm-rate input:checked~label,.cm-rate label:hover,.cm-rate label:hover~label{color:#d9a736}
+        .cm-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+        .cm-form__foot{display:flex;align-items:center;gap:14px}
+        .cm-form__foot button{border:0;cursor:pointer;font-family:inherit;flex:0 0 auto;padding-left:34px;padding-right:34px}
+        .cm-form__foot button span{position:absolute}
+        .cm-form__foot button[disabled]{opacity:.6;cursor:wait}
+        .cm-msg{font-size:13px;line-height:1.7}
+        .cm-msg.is-err{color:#dc2626}
+        .cm-msg.is-ok{color:#16a34a}
+        @media (max-width:575px){.cm-form__row{flex-direction:column;align-items:stretch}.cm-rate{align-self:flex-start}.cm-body,.cm-form,.cm-head{padding-left:18px;padding-right:18px}}
+
+        /* ---- comments: latest cards (blog section) ---- */
+        .cm-cards .cm-card{display:flex;flex-direction:column;height:calc(100% - 30px);background:#fff;border-radius:20px;overflow:hidden;margin-bottom:30px;box-shadow:0 8px 28px rgba(35,38,48,.08);transition:transform .3s ease,box-shadow .3s ease;text-align:right}
+        .cm-cards .cm-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(35,38,48,.18)}
+        .cm-card__img{position:relative;aspect-ratio:16/10;background:#232630;overflow:hidden}
+        .cm-card__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+        .cm-card:hover .cm-card__img img{transform:scale(1.08)}
+        .cm-card__img::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(to top,rgba(35,38,48,.55),transparent);pointer-events:none}
+        .cm-card__cat{position:absolute;bottom:12px;right:12px;z-index:2;background:rgba(255,255,255,.92);color:#232630;font-size:12px;padding:4px 12px;border-radius:30px}
+        .cm-card__rate{position:absolute;top:12px;left:12px;z-index:2;background:rgba(35,38,48,.75);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);padding:6px 12px;border-radius:30px;line-height:1}
+        .cm-card__body{position:relative;flex:1;display:flex;flex-direction:column;padding:30px 24px 22px}
+        .cm-card__quote{position:absolute;top:-22px;right:22px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#e8bb52,#d9a736);color:#fff;font:700 40px/58px Georgia,serif;text-align:center;box-shadow:0 6px 16px rgba(217,167,54,.45)}
+        .cm-card__food{font-size:18px;margin:0 0 10px;color:#232630}
+        .cm-card__text{flex:1;margin:0 0 18px;color:#5b5f6b;font-size:14.5px;line-height:2;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+        .cm-card__foot{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px dashed #e6e8ee}
+        .cm-card__foot .cm-avatar{flex-basis:40px;width:40px;height:40px;font-size:16px}
+        .cm-card__who{flex:1;min-width:0;line-height:1.6}
+        .cm-card__who strong{display:block;font-size:14px;color:#232630}
+        .cm-card__who small{font-size:12px;color:#a3a6ae}
+        .cm-card__more{border:0;background:transparent;padding:0;font-family:inherit;font-size:13px;font-weight:700;color:#d9a736;cursor:pointer;white-space:nowrap}
+        .cm-card__more:hover{color:#232630}
+    </style>
+</head>
+
+<body>
+    
+    <div class="page-loading">
+        <img src="{% static 'assets/images/loader.gif' %}" alt="" />
+    </div><!--page-loading end-->
+    
+    <div class="wrapper">
+
+        <header>
+            <div class="container-fluid">
+                <div class="header-content d-flex flex-wrap align-items-center">
+                    <div class="logo">
+                        <a href="{% url 'index' %}" title="">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="">
+                        </a>
+                    </div><!--logo end-->
+                    <nav>
+                        <ul>
+                            <li><a class="active" href="{% url 'index' %}" title="">خانه</a></li>
+                            <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                            <li><a href="#" title="">صفحات</a>
+                                <ul>
+                                    <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                                    <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                                    <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                                    <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                                    <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                                    <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                                    <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                                    <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                            <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+                        </ul>
+                    </nav><!--navigation end-->
+                    <div class="menu-btn">
+                        <span class="bar1"></span>
+                        <span class="bar2"></span>
+                        <span class="bar3"></span>
+                    </div><!--menu-bar end-->
+                    <ul class="oth-lnks ml-auto">
+                        <li><img src="{% static 'assets/images/icons/phone.svg' %}" alt="">۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><a href="#" title="" class="search-icon"><img src="{% static 'assets/images/icons/search.svg' %}" alt=""></a></li>
+                        <li><a href="{% url 'cart' %}" title="سبد خرید" class="cart-ico"><img src="{% static 'assets/images/icons/cart.svg' %}" alt=""></a><span class="cart-item-num">{{ cart_totals.count|intcomma }}</span></li>
+                        {% include 'partials/auth_menu.html' %}
+                    </ul><!--oth-lnks end-->
+                </div><!--header-content end-->
+                <div class="search-bar">
+                    <div class="container">
+                        <form method="get" action="{% url 'search' %}" role="search">
+                            <input type="hidden" name="scope" value="food">
+                            <input type="text" name="q" placeholder="جستجو در غذاها">
+                        </form>
+                    </div>    
+                </div><!--search-bar end-->
+            </div>
+        </header><!--header end-->
+
+        <div class="responsive-mobile-menu">
+            <ul>
+                <li><a class="active" href="{% url 'index' %}" title="">خانه</a></li>
+                <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                <li><a href="#" title="">صفحات</a>
+                    <ul>
+                        <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                        <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                        <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                        <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                        <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                        <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                        <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                        <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+            </ul>
+        </div><!--responsive-mobile-menu end-->
+
+        <section class="main-banner">
+            <div class="container">
+                <div class="banner-text">
+                    <h2>ما طعم زندگی را می‌رسانیم</h2>
+                    <span class="semi-bold text-capitalize">سفارش‌تان را درِ خانه‌تان تحویل بگیرید.</span>
+                    <form method="get" action="{% url 'search' %}" role="search">
+                        <input type="hidden" name="scope" value="food">
+                        <input type="text" name="q" class="half-radius" placeholder="نام غذا یا دسته را بنویسید…">
+                        <button type="submit" class="btn-default">جستجوی غذا<span></span></button>
+                    </form>
+                </div><!--banner-text end-->
+            </div>
+        </section><!--main-banner end-->
+
+        <section class="services-section">
+            <div class="container">
+                <div class="services-sec">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="service">
+                                <h2 class="semi-bold">۰۱.</h2>
+                                <span class="text-uppercase"><img src="{% static 'assets/images/icons/location.svg' %}" alt="">مرحله ۱</span>
+                                <h4 class="semi-bold text-capitalize"><a href="#" title="">انتخاب موقعیت مکانی</a></h4>
+                                <p>آدرس‌تان را وارد کنید یا با استفاده از اپلیکیشن موقعیت فعلی‌تان را انتخاب کنید.</p>
+                            </div><!--service end-->
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="service">
+                                <h2 class="semi-bold">۰۲.</h2>
+                                <span class="text-uppercase"><img src="{% static 'assets/images/icons/meat.svg' %}" alt="">مرحله ۲</span>
+                                <h4 class="semi-bold text-capitalize"><a href="#" title="">سفارش غذای مورد علاقه</a></h4>
+                                <p>غذای مورد علاقه‌تان و روش پرداخت را انتخاب کنید.</p>
+                            </div><!--service end-->
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="service">
+                                <h2 class="semi-bold">۰۳.</h2>
+                                <span class="text-uppercase"><img src="{% static 'assets/images/icons/box.svg' %}" alt="">مرحله ۳</span>
+                                <h4 class="semi-bold text-capitalize"><a href="#" title="">ارسال سریع</a></h4>
+                                <p>سفارش‌تان را در کمتر از یک ساعت درِ خانه‌تان تحویل بگیرید.</p>
+                            </div><!--service end-->
+                        </div>
+                    </div>
+                </div><!--services end-->
+            </div>
+        </section><!--services section end-->
+
+        <section class="sec-block pb-0">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>برگزیده‌ها </span>
+                    <h2 class="text-capitalize">رستوران‌ها و کافه‌ها</h2>
+                    <p class="mx-auto">بهترین رستوران‌ها و کافه‌هایی که مدت‌های طولانی است با ما همکاری می‌کنند.</p>
+                </div><!--sec-title end-->
+                <div class="featured-sec">
+                    <div class="row mb-70">
+                        <div class="col-md-6">
+                            <div class="featured-item">
+                                <img src="{% static 'assets/images/Caspian-Restaurant.jpg' %}" alt="Bulgarian restaurant" class="w-100">
+                                <ul class="ftz">
+                                    <li>
+                                        <span>
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.8333 3.33337H4.16667C3.24619 3.33337 2.5 4.07957 2.5 5.00004V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V5.00004C17.5 4.07957 16.7538 3.33337 15.8333 3.33337Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.5 8.33337H17.5" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M13.3333 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.66669 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        شنبه تا جمعه
+                                    </li>
+                                    <li>
+                                        <span>
+                                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 18.3333C14.6024 18.3333 18.3334 14.6023 18.3334 9.99996C18.3334 5.39759 14.6024 1.66663 10 1.66663C5.39765 1.66663 1.66669 5.39759 1.66669 9.99996C1.66669 14.6023 5.39765 18.3333 10 18.3333Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10 5V10L13.3333 11.6667" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        ۹ صبح تا ۱۱ شب
+                                    </li>
+                                </ul>
+                                <div class="feat-optz">
+                                    <span class="text-capitalize">رستوران</span>
+                                    <h2 class="text-capitalize"><a href="{% url 'restaurant_details' %}" title="">رستوران بلغاری</a></h2>
+                                </div>
+                            </div><!--featured-item end-->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="featured-item">
+                                <img src="{% static 'assets/images/Cover-c.jpg' %}" alt="Sushi Taste" class="w-100">
+                                <ul class="ftz">
+                                    <li>
+                                        <span>
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.8333 3.33337H4.16667C3.24619 3.33337 2.5 4.07957 2.5 5.00004V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V5.00004C17.5 4.07957 16.7538 3.33337 15.8333 3.33337Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.5 8.33337H17.5" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M13.3333 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.66669 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        شنبه تا جمعه
+                                    </li>
+                                    <li>
+                                        <span>
+                                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 18.3333C14.6024 18.3333 18.3334 14.6023 18.3334 9.99996C18.3334 5.39759 14.6024 1.66663 10 1.66663C5.39765 1.66663 1.66669 5.39759 1.66669 9.99996C1.66669 14.6023 5.39765 18.3333 10 18.3333Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10 5V10L13.3333 11.6667" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        ۹ صبح تا ۱۱ شب
+                                    </li>
+                                </ul>
+                                <div class="feat-optz">
+                                    <span class="text-capitalize">غذای آسیایی</span>
+                                    <h2 class="text-capitalize"><a href="{% url 'restaurant_details' %}" title="">طعم سوشی</a></h2>
+                                </div>
+                            </div><!--featured-item end-->
+                        </div>
+                        <div class="col-md-8">
+                            <div class="featured-item">
+                                <img src="{% static 'assets/images/images (4).jpg' %}" alt="Hot Pastry Cafe" class="w-100">
+                                <ul class="ftz">
+                                    <li>
+                                        <span>
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.8333 3.33337H4.16667C3.24619 3.33337 2.5 4.07957 2.5 5.00004V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V5.00004C17.5 4.07957 16.7538 3.33337 15.8333 3.33337Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.5 8.33337H17.5" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M13.3333 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.66669 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        شنبه تا جمعه
+                                    </li>
+                                    <li>
+                                        <span>
+                                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 18.3333C14.6024 18.3333 18.3334 14.6023 18.3334 9.99996C18.3334 5.39759 14.6024 1.66663 10 1.66663C5.39765 1.66663 1.66669 5.39759 1.66669 9.99996C1.66669 14.6023 5.39765 18.3333 10 18.3333Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10 5V10L13.3333 11.6667" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        ۹ صبح تا ۱۱ شب
+                                    </li>
+                                </ul>
+                                <div class="feat-optz">
+                                    <span class="text-capitalize">کافه</span>
+                                    <h2 class="text-capitalize"><a href="{% url 'restaurant_details' %}" title="">کافه شیرینی داغ</a></h2>
+                                </div>
+                            </div><!--featured-item end-->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="featured-item">
+                                <img src="{% static 'assets/images/images (3).jpg' %}" alt="Beer Power" class="w-100">
+                                <ul class="ftz">
+                                    <li>
+                                        <span>
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.8333 3.33337H4.16667C3.24619 3.33337 2.5 4.07957 2.5 5.00004V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V5.00004C17.5 4.07957 16.7538 3.33337 15.8333 3.33337Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.5 8.33337H17.5" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M13.3333 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.66669 1.66663V4.99996" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        شنبه تا جمعه
+                                    </li>
+                                    <li>
+                                        <span>
+                                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 18.3333C14.6024 18.3333 18.3334 14.6023 18.3334 9.99996C18.3334 5.39759 14.6024 1.66663 10 1.66663C5.39765 1.66663 1.66669 5.39759 1.66669 9.99996C1.66669 14.6023 5.39765 18.3333 10 18.3333Z" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10 5V10L13.3333 11.6667" stroke="#D8AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        ۹ صبح تا ۱۱ شب
+                                    </li>
+                                </ul>
+                                <div class="feat-optz">
+                                    <span class="text-capitalize">پاب</span>
+                                    <h2 class="text-capitalize"><a href="{% url 'restaurant_details' %}" title="">قدرت آبجو</a></h2>
+                                </div>
+                            </div><!--featured-item end-->
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <a href="{% url 'restaurants' %}" title="" class="btn-default">مشاهده همه<span></span></a>
+                        </div>
+                    </div>
+                </div><!--featured-sec end-->
+            </div>
+        </section><!--featured-section end-->
+
+        <section class="sec-block">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>دلیلش اینجاست </span>
+                    <h2 class="text-capitalize">چرا مردم ما را انتخاب می‌کنند</h2>
+                    <p class="mx-auto">ما مزایای زیادی داریم اما در اینجا فقط به برخی از آن‌ها اشاره می‌کنیم؛ پایین را ببینید.</p>
+                </div><!--sec-title end-->
+                <div class="our-proptz text-center">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="proptz">
+                                <div class="propt-icon">
+                                    <img src="{% static 'assets/images/icons/discount.svg' %}" alt="">
+                                </div>
+                                <h3 class="semi-bold text-capitalize">سیستم تخفیف</h3>
+                                <p>برای مشتریان همیشگی‌مان سیستم تخفیف ویژه‌ای داریم.</p>
+                            </div><!--proptz end-->
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="proptz">
+                                <div class="propt-icon">
+                                    <img src="{% static 'assets/images/icons/delivery.svg' %}" alt="">
+                                </div>
+                                <h3 class="semi-bold text-capitalize">ارسال اکسپرس</h3>
+                                <p>داغ‌ترین غذا و سریع‌ترین ارسال به هر نقطه از شهر شما.</p>
+                            </div><!--proptz end-->
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="proptz">
+                                <div class="propt-icon">
+                                    <img src="{% static 'assets/images/icons/food.svg' %}" alt="">
+                                </div>
+                                <h3 class="semi-bold text-capitalize">بیش از ۵۰ رستوران</h3>
+                                <p>انتخاب گسترده‌ای از رستوران‌ها و کافه‌ها در سراسر کشور.</p>
+                            </div><!--proptz end-->
+                        </div>
+                    </div>
+                </div><!--our-proptz end-->
+            </div>
+        </section><!--our-proptz-section end-->
+
+        <section class="sec-block">
+            <div class="fixed-bg bg1"></div>
+            <div class="container">
+                <div class="promotion">
+                    <h2 class="text-capitalize">اولین سفارش‌تان را بدهید و <span>۵۰٪ تخفیف</span> بگیرید</h2>
+                    <span class="text-capitalize semi-bold">سفارش‌تان را درِ خانه‌تان تحویل بگیرید.</span>
+                    <p>اگر برای اولین بار از ما سفارش غذا بدهید، هدیه‌ای برای شما داریم — ۵۰٪ تخفیف روی اولین سفارش. کافی است ثبت‌نام کنید و غذای مورد علاقه‌تان را سفارش بدهید.</p>
+                    <a href="{% url 'restaurants' %}" title="" class="btn-default">سفارش غذا <span></span></a>
+                </div><!--promotion end-->
+            </div>
+        </section>
+
+        <section class="sec-block pb-0">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>نظرات مشتریان </span>
+                    <h2 class="text-capitalize">مشتریان راضی چه می‌گویند</h2>
+                </div><!--sec-title end-->
+                <div class="hc-grid">
+                    {% for t in happy_customers %}
+                    <article class="hc-card">
+                        <i class="fa fa-quote-right hc-quote" aria-hidden="true"></i>
+                        <p class="hc-text">{{ t.text }}</p>
+                        <div class="hc-by">
+                            <img src="{{ t.avatar }}" alt="{{ t.name }}">
+                            <div>
+                                <h4>{{ t.name }}</h4>
+                                <span>{{ t.date }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <article class="hc-card hc-empty">
+                        <p class="hc-text">تجربه‌تان از سفارش غذا را با ما در میان بگذارید! پیام شما از صفحه «تماس با ما» اینجا نمایش داده می‌شود.</p>
+                        <a href="{% url 'contact' %}" class="btn-default">ارسال پیام <span></span></a>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% if happy_customers %}
+                <div class="text-center hc-more">
+                    <a href="{% url 'testimonials' %}" class="btn-default">مشاهدهٔ همهٔ نظرات <span></span></a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="sec-block">
+            <div class="container-fluid">
+                <div class="section-title text-center">
+                    <span>طعم‌های فوق‌العاده </span>
+                    <h2 class="text-capitalize">غذاهای محبوب</h2>
+                </div><!--sec-title end-->
+                <div class="popular-dishes text-center">
+                    <div class="options">
+                        <div class="option-isotop">
+                            <ul id="filter" class="option-set filters-nav" data-option-key="filter">
+                                {% for cat in categories %}
+                                <li><a{% if forloop.first %} class="selected"{% endif %} data-option-value=".{{ cat.slug }}">{{ cat.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div><!--options end-->
+                    <div class="row">
+                        <div class="masonary">
+                            {% for food in foods %}
+                            <div class="col-lg-3 col-md-6 col-sm-6 {{ food.category.slug }}">
+                                <div class="pd-item food-card">
+                                    <div class="pd-thumbnail food-card__img">
+                                        <img src="{{ food.image.url }}" alt="{{ food.name }}" class="w-100">
+                                        {% if food.has_discount %}<span class="food-card__badge">{{ food.discount_percent }}٪ تخفیف</span>{% endif %}
+                                        <span class="food-card__cat">{{ food.category.name }}</span>
+                                    </div>
+                                    <div class="food-card__body">
+                                        <h3 class="semi-bold"><a href="{% url 'restaurant_details' %}" title="">{{ food.name }}</a></h3>
+                                        <p class="food-card__desc">{{ food.description }}</p>
+                                        <div class="food-card__rate">
+                                            <button type="button" class="food-card__rating js-open-comments" data-food-id="{{ food.id }}" data-food-name="{{ food.name }}" data-list-url="{% url 'comment_list' food.id %}" data-add-url="{% url 'comment_add' food.id %}">
+                                                <span class="stars" style="--r:{% if food.comment_count %}{{ food.avg_rating|unlocalize }}{% else %}0{% endif %}">★★★★★</span>
+                                                <span class="js-rating-text">{% if food.comment_count %}{{ food.avg_rating|floatformat:1 }} · {{ food.comment_count }} نظر{% else %}اولین نظر را بنویسید{% endif %}</span>
+                                            </button>
+                                        </div>
+                                        <div class="food-card__price">
+                                            {% if food.has_discount %}<del>{{ food.price|intcomma }}</del>{% endif %}
+                                            <strong>{{ food.final_price|intcomma }} <small>تومان</small></strong>
+                                        </div>
+                                        <form method="post" action="{% url 'cart_add' food.id %}" class="add-to-cart-form">{% csrf_token %}<button type="submit" class="btn-default gradient-bg half-radius height-2">افزودن به سبد خرید <span></span></button></form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div><!--masonary end-->
+                    </div>
+                </div><!--popular-dishes end-->
+            </div>
+        </section>
+
+        <section class="sec-block oder-sec">
+            <div class="fixed-bg bg2"></div>
+            <div class="container">
+                <div class="order-appliction">
+                    <h2>با اپلیکیشن ما <span>سفارش بدهید</span></h2>
+                    <ul class="vl-fzt">
+                        <li>
+                            <span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="transparent" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 11.0799V11.9999C21.9988 14.1563 21.3005 16.2545 20.0093 17.9817C18.7182 19.7088 16.9033 20.9723 14.8354 21.5838C12.7674 22.1952 10.5573 22.1218 8.53447 21.3744C6.51168 20.6271 4.78465 19.246 3.61096 17.4369C2.43727 15.6279 1.87979 13.4879 2.02168 11.3362C2.16356 9.18443 2.99721 7.13619 4.39828 5.49694C5.79935 3.85768 7.69278 2.71525 9.79619 2.24001C11.8996 1.76477 14.1003 1.9822 16.07 2.85986" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 4L12 14.01L9 11.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <div class="vs-info">
+                                <h4>در چند دقیقه سفارش بدهید و پرداخت کنید</h4>
+                                <p>غذا را انتخاب کنید و با چند کلیک آنلاین پرداخت را انجام بدهید؛ همچنین موقعیت فعلی‌تان را با GPS انتخاب کنید.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="transparent" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 11.0799V11.9999C21.9988 14.1563 21.3005 16.2545 20.0093 17.9817C18.7182 19.7088 16.9033 20.9723 14.8354 21.5838C12.7674 22.1952 10.5573 22.1218 8.53447 21.3744C6.51168 20.6271 4.78465 19.246 3.61096 17.4369C2.43727 15.6279 1.87979 13.4879 2.02168 11.3362C2.16356 9.18443 2.99721 7.13619 4.39828 5.49694C5.79935 3.85768 7.69278 2.71525 9.79619 2.24001C11.8996 1.76477 14.1003 1.9822 16.07 2.85986" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 4L12 14.01L9 11.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <div class="vs-info">
+                                <h4>پیگیری وضعیت ارسال</h4>
+                                <p>وضعیت سفارش‌تان را به‌صورت لحظه‌ای دنبال کنید و مسیر ارسال را تا رسیدن غذا ببینید.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="btnss">
+                        <li><img src="{% static 'assets/images/btn1.png' %}" alt=""></li>
+                        <li><img src="{% static 'assets/images/btn2.png' %}" alt=""></li>
+                    </ul>
+                </div><!--promotion end-->
+            </div>
+        </section>
+
+        <section class="sec-block pb-0">
+            <div class="container">
+                <div class="offer-posts">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="offer-post">
+                                <img src="{% static 'assets/images/partners/courier-partner.svg' %}" alt="Courier partner" class="w-100">
+                                <h2><a href="{% url 'blog_single' %}" title="">پیک ما شوید و درآمد داشته باشید</a></h2>
+                                <a href="#" title="" class="arrow">
+                                    <img src="{% static 'assets/images/icons/arrow.svg' %}" alt="">
+                                </a>
+                            </div><!--blog end-->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="offer-post">
+                                <img src="{% static 'assets/images/partners/restaurant-partner.svg' %}" alt="Restaurant partner" class="w-100">
+                                <h2><a href="{% url 'blog_single' %}" title="">همکار رستوران شوید</a></h2>
+                                <a href="#" title="" class="arrow">
+                                    <img src="{% static 'assets/images/icons/arrow.svg' %}" alt="">
+                                </a>
+                            </div><!--blog end-->
+                        </div>
+                    </div>
+                </div><!--offer-post end-->
+            </div>
+        </section>
+
+        <section class="sec-block pb-0">
+            <div class="container">
+                <div class="newsletter-sec">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="newsletter-text">
+                                <h2>خبرنامه</h2>
+                                <p>از تخفیف‌ها و جشنواره‌ها جا نمانید.</p>
+                            </div><!--newsletter-text end-->
+                        </div>
+                        <div class="col-lg-8">
+                            <form>
+                                <input type="email" name="email" class="half-radius" placeholder="ایمیل خود را وارد کنید">
+                                <button type="submit" class="btn-default">عضویت <span></span></button>
+                            </form>
+                        </div>
+                    </div>
+                    <h4 class="section_title">عضویت در خبرنامه</h4>
+                </div><!--newsletter-sec end-->
+            </div>
+        </section><!--newsletter end-->
+
+        <section class="sec-block">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>وبلاگ ما </span>
+                    <h2 class="text-capitalize">آخرین پست‌ها و مقالات</h2>
+                    <p class="mx-auto">تازه‌ترین تجربه‌ها و نظرات مشتریان دربارهٔ غذاهای ما را اینجا بخوانید.</p>
+                </div><!--sec-title end-->
+                <div class="blog-posts cm-cards">
+                    <div class="row">
+                        {% for c in latest_comments %}
+                        <div class="col-lg-4 col-md-6">
+                            <article class="cm-card">
+                                <div class="cm-card__img">
+                                    <img src="{{ c.food.image.url }}" alt="{{ c.food.name }}" class="w-100">
+                                    <span class="cm-card__cat">{{ c.food.category.name }}</span>
+                                    <span class="cm-card__rate"><span class="stars" style="--r:{{ c.rating|unlocalize }}">★★★★★</span></span>
+                                </div>
+                                <div class="cm-card__body">
+                                    <span class="cm-card__quote">”</span>
+                                    <h3 class="cm-card__food">{{ c.food.name }}</h3>
+                                    <p class="cm-card__text">{{ c.text }}</p>
+                                    <div class="cm-card__foot">
+                                        <span class="cm-avatar">{{ c.name|slice:":1" }}</span>
+                                        <div class="cm-card__who"><strong>{{ c.name }}</strong><small>{{ c.date_fa }}</small></div>
+                                        <button type="button" class="cm-card__more js-open-comments" data-food-id="{{ c.food.id }}" data-food-name="{{ c.food.name }}" data-list-url="{% url 'comment_list' c.food.id %}" data-add-url="{% url 'comment_add' c.food.id %}">همهٔ نظرات ←</button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        {% empty %}
+                        <div class="col-12"><p class="cm-empty">هنوز نظری ثبت نشده است. اولین نفری باشید که درباره غذاهای ما نظر می‌دهد!</p></div>
+                        {% endfor %}
+                    </div>
+                </div><!--blog-posts end-->
+            </div>
+        </section>
+
+        <footer>
+            <div class="top-footer">
+                <div class="fixed-bg bg3"></div>
+                <div class="phone-div">
+                    <div class="border-circle">
+                        <div class="phone-circle">
+                            <a href="#" title="" class="ext-link"></a>
+                            <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.3333 14.1V16.6C18.3343 16.8321 18.2867 17.0618 18.1937 17.2745C18.1008 17.4871 17.9644 17.678 17.7934 17.8349C17.6224 17.9918 17.4205 18.1113 17.2006 18.1856C16.9808 18.26 16.7478 18.2876 16.5167 18.2667C13.9523 17.9881 11.4891 17.1118 9.32498 15.7084C7.31151 14.4289 5.60443 12.7218 4.32498 10.7084C2.91663 8.53436 2.04019 6.05919 1.76665 3.48336C1.74583 3.25291 1.77321 3.02066 1.84707 2.80138C1.92092 2.5821 2.03963 2.3806 2.19562 2.20971C2.35162 2.03882 2.54149 1.90228 2.75314 1.80879C2.9648 1.7153 3.1936 1.66691 3.42499 1.66669H5.92498C6.32941 1.66271 6.72148 1.80592 7.02812 2.06964C7.33476 2.33335 7.53505 2.69956 7.59165 3.10002C7.69717 3.90008 7.89286 4.68563 8.17498 5.44169C8.2871 5.73996 8.31137 6.06412 8.24491 6.37576C8.17844 6.6874 8.02404 6.97345 7.79998 7.20002L6.74165 8.25836C7.92795 10.3446 9.65536 12.0721 11.7417 13.2584L12.8 12.2C13.0266 11.976 13.3126 11.8216 13.6242 11.7551C13.9359 11.6886 14.26 11.7129 14.5583 11.825C15.3144 12.1071 16.0999 12.3028 16.9 12.4084C17.3048 12.4655 17.6745 12.6694 17.9388 12.9813C18.203 13.2932 18.3435 13.6913 18.3333 14.1Z" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/logo.png' %}" alt="">
+                                <h4>ساعات کاری</h4>
+                                <p>شنبه تا جمعه: ۹ صبح تا ۱۰ شب <br /> جمعه: ۱۰ صبح تا ۸ شب</p>
+                            </div><!--widget-about end-->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="widget widget-contact text-center">
+                                <h2><span>برای سفارش</span> با ما تماس بگیرید!</h2>
+                                <p>خجالت نکشید، ما گاز نمی‌گیریم :)</p>
+                                <strong>۰۲۱-۱۲۳۴۵۶۷۸</strong>
+                            </div><!--widget-contact end-->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-payment">
+                                <div class="wid-payment">
+                                    <h4>روش‌های پرداخت</h4>
+                                    <img src="{% static 'assets/images/imgs.png' %}" alt="">
+                                </div>
+                                <div class="wid-payment">
+                                    <h4>دانلود اپلیکیشن</h4>
+                                    <ul>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn1.png' %}" alt=""></a></li>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn2.png' %}" alt=""></a></li>
+                                    </ul>
+                                </div>
+                            </div><!--widget-payment end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-footer">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>© تمامی حقوق محفوظ است. Designed &amp; Developed by <a href="https://sepehrbaghernezhadian.ir/" target="_blank" rel="noopener">Sepehr Baghernejadian</a></p>
+                            </div><!--copyright end-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="find-us text-right">
+                                <h5>ما را دنبال کنید:</h5>
+                                <ul class="social-links-text">
+                                    <li><a href="#" title="">فیسبوک</a></li>
+                                    <li><a href="#" title="">توییتر</a></li>
+                                    <li><a href="https://www.instagram.com/sepi__en/" target="_blank" rel="noopener" title="sepi__en">اینستاگرام</a></li>
+                                </ul>
+                            </div><!--find-us end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer><!--footer end-->
+        
+    </div><!--wrapper end-->
+
+    <div class="cm-modal" id="cmModal" aria-hidden="true">
+        <div class="cm-dialog" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+            <div class="cm-head">
+                <button type="button" class="cm-close" id="cmClose" aria-label="بستن">&times;</button>
+                <h3 id="cmTitle"></h3>
+                <div class="cm-head__sum"><span class="stars" id="cmStars">★★★★★</span><span id="cmSum"></span></div>
+            </div>
+            <div class="cm-body"><ul class="cm-list" id="cmList"></ul></div>
+            <form class="cm-form" id="cmForm" novalidate>
+                {% csrf_token %}
+                <h4>نظر خودتان را بنویسید</h4>
+                <div class="cm-form__row">
+                    <input type="text" name="name" id="cmName" placeholder="نام شما" maxlength="60" autocomplete="name">
+                    <div class="cm-rate" title="امتیاز شما">
+                        <input type="radio" name="rating" id="cmR5" value="5" checked><label for="cmR5">★</label>
+                        <input type="radio" name="rating" id="cmR4" value="4"><label for="cmR4">★</label>
+                        <input type="radio" name="rating" id="cmR3" value="3"><label for="cmR3">★</label>
+                        <input type="radio" name="rating" id="cmR2" value="2"><label for="cmR2">★</label>
+                        <input type="radio" name="rating" id="cmR1" value="1"><label for="cmR1">★</label>
+                    </div>
+                </div>
+                <textarea name="text" placeholder="تجربه‌تان از این غذا چطور بود؟" maxlength="500"></textarea>
+                <input type="text" name="website" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div class="cm-form__foot">
+                    <button type="submit" class="btn-default gradient-bg half-radius height-2">ثبت نظر <span></span></button>
+                    <div class="cm-msg" id="cmMsg" role="status"></div>
+                </div>
+            </form>
+        </div>
+    </div><!--cm-modal end-->
+
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/slick/slick.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+    <script>
+        /* auto-select-first-category: apply the first category filter on page load */
+        $(window).on("load", function () {
+            var $first = $("#filter a").first();
+            if ($first.length) {
+                $("#filter a").removeClass("selected");
+                setTimeout(function () { $first.trigger("click"); }, 100);
+            }
+        });
+    </script>
+
+    <script>
+        /* comments: modal + ajax */
+        (function () {
+            var modal = document.getElementById("cmModal");
+            if (!modal) return;
+            var list = document.getElementById("cmList"), title = document.getElementById("cmTitle"),
+                sumStars = document.getElementById("cmStars"), sumText = document.getElementById("cmSum"),
+                form = document.getElementById("cmForm"), msg = document.getElementById("cmMsg"),
+                nameInput = document.getElementById("cmName"), current = null;
+
+            function el(tag, cls, text) {
+                var e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text != null) e.textContent = text;
+                return e;
+            }
+            function setMsg(text, type) { msg.textContent = text || ""; msg.className = "cm-msg" + (type ? " is-" + type : ""); }
+
+            function buildItem(c, isNew) {
+                var li = el("li", "cm-item" + (isNew ? " is-new" : ""));
+                li.appendChild(el("span", "cm-avatar", c.initial));
+                var main = el("div", "cm-item__main"), top = el("div", "cm-item__top");
+                top.appendChild(el("span", "cm-item__name", c.name));
+                top.appendChild(el("span", "cm-item__time", c.time));
+                var st = el("span", "stars", "\u2605\u2605\u2605\u2605\u2605");
+                st.style.setProperty("--r", c.rating);
+                main.appendChild(top); main.appendChild(st);
+                main.appendChild(el("p", "cm-item__text", c.text));
+                li.appendChild(main);
+                return li;
+            }
+
+            function setSummary(count, avg) {
+                sumStars.style.setProperty("--r", count ? avg : 0);
+                sumText.textContent = count ? (avg + " از ۵ · " + count + " نظر") : "هنوز نظری ثبت نشده";
+                if (!current) return;
+                document.querySelectorAll('.food-card__rating[data-food-id="' + current.id + '"]').forEach(function (b) {
+                    b.querySelector(".stars").style.setProperty("--r", count ? avg : 0);
+                    b.querySelector(".js-rating-text").textContent = count ? (avg + " · " + count + " نظر") : "اولین نظر را بنویسید";
+                });
+            }
+
+            function showEmpty() { list.innerHTML = ""; var li = el("li", "cm-empty", "هنوز نظری ثبت نشده. اولین نفر باشید!"); li.id = "cmEmpty"; list.appendChild(li); }
+
+            function openModal(btn) {
+                current = { id: btn.getAttribute("data-food-id"), list: btn.getAttribute("data-list-url"), add: btn.getAttribute("data-add-url") };
+                title.textContent = btn.getAttribute("data-food-name");
+                setSummary(0, 0);
+                list.innerHTML = ""; list.appendChild(el("li", "cm-empty", "در حال بارگذاری…"));
+                setMsg("");
+                modal.classList.add("is-open"); modal.setAttribute("aria-hidden", "false");
+                document.documentElement.style.overflow = "hidden";
+                fetch(current.list, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+                    .then(function (r) { return r.json(); })
+                    .then(function (d) {
+                        list.innerHTML = "";
+                        if (!d.comments.length) showEmpty();
+                        d.comments.forEach(function (c) { list.appendChild(buildItem(c)); });
+                        setSummary(d.count, d.avg);
+                    })
+                    .catch(function () { list.innerHTML = ""; list.appendChild(el("li", "cm-empty", "بارگذاری نظرها انجام نشد. دوباره تلاش کنید.")); });
+            }
+            function closeModal() {
+                modal.classList.remove("is-open"); modal.setAttribute("aria-hidden", "true");
+                document.documentElement.style.overflow = "";
+            }
+
+            document.addEventListener("click", function (e) {
+                var b = e.target.closest(".js-open-comments");
+                if (b) { e.preventDefault(); openModal(b); }
+            });
+            document.getElementById("cmClose").addEventListener("click", closeModal);
+            modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+            document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+
+            try { nameInput.value = localStorage.getItem("cm_name") || ""; } catch (err) {}
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                if (!current) return;
+                var btn = form.querySelector("button[type=submit]");
+                btn.disabled = true; setMsg("");
+                fetch(current.add, { method: "POST", body: new FormData(form), credentials: "same-origin", headers: { "X-Requested-With": "XMLHttpRequest" } })
+                    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+                    .then(function (res) {
+                        if (!res.ok || !res.d.ok) {
+                            var errs = res.d.errors || {};
+                            setMsg(errs.name || errs.text || errs.rating || "ثبت نظر انجام نشد.", "err");
+                            return;
+                        }
+                        if (res.d.comment) {
+                            var empty = document.getElementById("cmEmpty"); if (empty) empty.remove();
+                            list.insertBefore(buildItem(res.d.comment, true), list.firstChild);
+                            list.parentNode.scrollTop = 0;
+                        }
+                        setSummary(res.d.count, res.d.avg);
+                        try { localStorage.setItem("cm_name", nameInput.value.trim()); } catch (err) {}
+                        form.querySelector("textarea").value = "";
+                        setMsg("نظر شما ثبت شد. ممنون از همراهی‌تان!", "ok");
+                    })
+                    .catch(function () { setMsg("خطا در ارتباط با سرور. دوباره تلاش کنید.", "err"); })
+                    .then(function () { btn.disabled = false; });
+            });
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends 'blog_base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block pager_title %}{{ post.title }}{% endblock %}
+{% block crumb %}<li><span>{{ post.title|truncatechars:30 }}</span></li>{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+
+        {% if user.is_superuser %}
+        <div class="post-admin-bar">
+            <a href="{% url 'blog_edit' post.pk %}" class="btn btn-outline-secondary">ویرایش</a>
+            <form method="post" action="{% url 'blog_delete' post.pk %}" onsubmit="return confirm('این بلاگ حذف شود؟');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">حذف</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <div class="post-cover"><img src="{{ post.image.url }}" alt="{{ post.title }}"></div>
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">{{ post.created_at|date:"Y/m/d" }}{% if post.author %} · {{ post.author.get_full_name|default:post.author.get_username }}{% endif %}</div>
+        <div class="post-desc">{{ post.description|linebreaks }}</div>
+
+        <!-- ================= comments ================= -->
+        <div class="comments-box" id="comments">
+            <h3>نظرات ({{ comments|length }})</h3>
+
+            {% for c in comments %}
+            <div class="c-item" id="comment-{{ c.pk }}">
+                <div class="c-avatar">{{ c.display_name|slice:":1"|upper }}</div>
+                <div class="c-body">
+                    <div class="c-head">
+                        <strong>{{ c.display_name }}</strong>
+                        <small>{{ c.created_at|date:"Y/m/d H:i" }}</small>
+                    </div>
+                    <p class="c-text">{{ c.text }}</p>
+
+                    {% if user.is_superuser %}
+                    <div class="c-actions">
+                        <button type="button" onclick="document.getElementById('reply-form-{{ c.pk }}').classList.toggle('d-none')">پاسخ</button>
+                        <form method="post" action="{% url 'blog_comment_delete' c.pk %}" style="display:inline" onsubmit="return confirm('این نظر حذف شود؟');">
+                            {% csrf_token %}<button type="submit">حذف نظر</button>
+                        </form>
+                    </div>
+                    <form method="post" action="{% url 'blog_reply_add' c.pk %}" class="reply-form d-none" id="reply-form-{{ c.pk }}">
+                        {% csrf_token %}
+                        <textarea name="text" maxlength="1000" placeholder="پاسخ شما..." required></textarea>
+                        <button type="submit" class="btn-default mt-2">ارسال پاسخ <span></span></button>
+                    </form>
+                    {% endif %}
+
+                    {% if c.replies.all %}
+                    <div class="c-replies">
+                        {% for r in c.replies.all %}
+                        <div class="c-item">
+                            <div class="c-avatar is-admin">{{ r.user.get_username|slice:":1"|upper|default:"M" }}</div>
+                            <div class="c-body">
+                                <div class="c-head">
+                                    <strong>{{ r.user.get_full_name|default:r.user.get_username|default:"مدیریت" }}<span class="c-badge">پاسخ مدیریت</span></strong>
+                                    <small>{{ r.created_at|date:"Y/m/d H:i" }}</small>
+                                </div>
+                                <p class="c-text">{{ r.text }}</p>
+                                {% if user.is_superuser %}
+                                <div class="c-actions">
+                                    <form method="post" action="{% url 'blog_reply_delete' r.pk %}" style="display:inline" onsubmit="return confirm('این پاسخ حذف شود؟');">
+                                        {% csrf_token %}<button type="submit">حذف پاسخ</button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">هنوز نظری ثبت نشده. اولین نفر باشید!</p>
+            {% endfor %}
+
+            <h4 class="mt-5 mb-3">ثبت نظر</h4>
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'blog_comment_add' post.pk %}" class="comment-form">
+                {% csrf_token %}
+                <textarea name="text" maxlength="1000" placeholder="نظر خود را بنویسید..." required></textarea>
+                <button type="submit" class="btn-default mt-3">ارسال نظر <span></span></button>
+            </form>
+            {% else %}
+            <div class="login-note">برای ثبت نظر ابتدا <a href="{% url 'sign_in' %}"><strong>وارد شوید</strong></a>.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

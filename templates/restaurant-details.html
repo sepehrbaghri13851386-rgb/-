@@ -1,0 +1,401 @@
+{% load static %}
+{% load humanize %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>جزئیات رستوران | رستوران اصلی</title>
+    <meta name="description" content="رستوران اصلی - سفارش آنلاین غذا از بهترین رستوران‌ها و کافه‌ها با ارسال سریع به درِ خانه شما" />
+    <meta name="author" content="George_Fx">
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/js/lib/slick/slick-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=4">
+</head>
+
+<body>
+    
+    <div class="page-loading">
+        <img src="{% static 'assets/images/loader.gif' %}" alt="" />
+    </div><!--page-loading end-->
+    
+    <div class="wrapper">
+
+        <header>
+            <div class="container-fluid">
+                <div class="header-content d-flex flex-wrap align-items-center">
+                    <div class="logo">
+                        <a href="{% url 'index' %}" title="">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="">
+                        </a>
+                    </div><!--logo end-->
+                    <nav>
+                        <ul>
+                            <li><a href="{% url 'index' %}" title="">خانه</a></li>
+                            <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                            <li><a class="active" href="#" title="">صفحات</a>
+                                <ul>
+                                    <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                                    <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                                    <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                                    <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                                    <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                                    <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                                    <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                                    <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                            <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+                        </ul>
+                    </nav><!--navigation end-->
+                    <div class="menu-btn">
+                        <span class="bar1"></span>
+                        <span class="bar2"></span>
+                        <span class="bar3"></span>
+                    </div><!--menu-bar end-->
+                    <ul class="oth-lnks ml-auto">
+                        <li><img src="{% static 'assets/images/icons/phone.svg' %}" alt="">۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><a href="#" title="" class="search-icon"><img src="{% static 'assets/images/icons/search.svg' %}" alt=""></a></li>
+                        <li><a href="{% url 'cart' %}" title="سبد خرید" class="cart-ico"><img src="{% static 'assets/images/icons/cart.svg' %}" alt=""></a><span class="cart-item-num">{{ cart_totals.count|intcomma }}</span></li>
+                        {% include 'partials/auth_menu.html' %}
+                    </ul><!--oth-lnks end-->
+                </div><!--header-content end-->
+                <div class="search-bar">
+                    <div class="container">
+                        <form method="get" action="{% url 'search' %}" role="search">
+                            <input type="hidden" name="scope" value="item">
+                            <input type="text" name="q" placeholder="جستجو در منو">
+                        </form>
+                    </div>    
+                </div><!--search-bar end-->
+            </div>
+        </header><!--header end-->
+
+        <div class="responsive-mobile-menu">
+            <ul>
+                <li><a class="active" href="{% url 'index' %}" title="">خانه</a></li>
+                <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
+                <li><a href="#" title="">صفحات</a>
+                    <ul>
+                        <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+                        <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+                        <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
+                        <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
+                        <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
+                        <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+                        <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+                        <li><a href="{% url 'not_found' %}" title="">404</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
+                <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
+            </ul>
+        </div><!--responsive-mobile-menu end-->
+
+        <section class="pager-section text-center">
+            <div class="fixed-bg bg4"></div>
+            <div class="container">
+                <div class="pager-head">
+                    <h2>{% if gz_item %}{{ gz_item.title }}{% else %}رستوران بلغاری{% endif %}</h2>
+                    <ul>
+                        <li><a href="#" title="">خانه</a></li>
+                        <li><a href="#" title="">رستوران‌ها</a></li>
+                        <li><span>{% if gz_item %}{{ gz_item.title }}{% else %}رستوران بلغاری{% endif %}</span></li>
+                    </ul>
+                </div><!--pager-head end-->
+            </div>
+        </section><!--pager-section end-->
+
+<style>
+.gz-meta{display:block;font-size:13px;color:#8a94a6;margin:4px 0 8px}
+.gz-meta i{color:#D8AB37}
+.gz-itemwrap{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+@media(max-width:900px){.gz-itemwrap{grid-template-columns:1fr}}
+.gz-main{width:100%;border-radius:20px;aspect-ratio:4/3;object-fit:cover;box-shadow:0 10px 30px rgba(35,38,48,.12)}
+.gz-thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.gz-thumbs img{width:76px;height:76px;object-fit:cover;border-radius:12px;cursor:pointer;opacity:.65;border:2px solid transparent;transition:.2s}
+.gz-thumbs img.on,.gz-thumbs img:hover{opacity:1;border-color:#D8AB37}
+.gz-info h2{font-size:30px;margin:6px 0 12px}
+.gz-info p{color:#5D6978;line-height:2.1}
+.gz-price{color:#D8AB37;font-weight:700;font-size:22px;margin:14px 0}
+.gz-cat{font-size:13px;color:#9aa4b5}
+.gz-flash{padding:13px 16px;border-radius:12px;margin-bottom:18px;font-size:14px}
+.gz-flash.ok{background:#effaf3;border:1px solid #bfe8cf;color:#1d6b3d}
+.gz-flash.err{background:#fff4f4;border:1px solid #f3c6c6;color:#a12a2a}
+.gz-rate{display:inline-flex;flex-direction:row-reverse;direction:ltr;margin:6px 0 12px}
+.gz-rate input{display:none}
+.gz-rate label{font-size:26px;color:#d9dde6;cursor:pointer;padding:0 2px;margin:0}
+.gz-rate input:checked~label,.gz-rate label:hover,.gz-rate label:hover~label{color:#D8AB37}
+.gz-login{background:#F4F7FD;border:1px dashed #c9d4e8;border-radius:16px;padding:22px;text-align:center}
+.gz-reply{margin-top:12px;background:#fffaf0;border-right:3px solid #D8AB37;border-radius:10px;padding:12px 16px}
+.gz-reply b{color:#b98a14;font-size:13px}.gz-reply p{margin:4px 0 0}
+.gz-rform textarea{width:100%;min-height:70px;border:1px solid #dfe5f0;border-radius:10px;padding:10px;margin-top:10px}
+.gz-rform button{margin-top:8px;border:0;background:#232630;color:#fff;border-radius:30px;padding:7px 20px;font-size:13px;cursor:pointer}
+.gz-empty{color:#8a94a6;text-align:center;padding:30px 0}
+.testimonials-list .test-monial .testi_head img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+</style>
+{% if gz_item %}
+        <section class="sec-block">
+            <div class="container">
+                <div class="gz-itemwrap">
+                    <div>
+                        <img id="gz-main" class="gz-main" src="{{ gz_images.0 }}" alt="{{ gz_item.title }}">
+                        {% if gz_images|length > 1 %}
+                        <div class="gz-thumbs">{% for src in gz_images %}<img src="{{ src }}" alt="" class="{% if forloop.first %}on{% endif %}">{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                    <div class="gz-info">
+                        <span class="gz-cat">{{ gz_item.category.name }}</span>
+                        <h2>{{ gz_item.title }}</h2>
+                        <ul class="rating d-inline-block">{% for s in "12345" %}<li><i class="{% if forloop.counter <= gz_avg_round %}fa{% else %}far{% endif %} fa-star"></i></li>{% endfor %}</ul>
+                        <span class="gz-meta" style="display:inline-block;margin-right:8px">{% if gz_comments %}{{ gz_avg }} · {{ gz_comments|length }} نظر{% else %}هنوز نظری ثبت نشده{% endif %}</span>
+                        {% if gz_item.price %}<div class="gz-price">{{ gz_item.price|intcomma }} تومان</div>{% endif %}
+                        <p>{{ gz_item.description|linebreaksbr }}</p>
+                        <a href="{% url 'restaurant_details' %}" class="btn-default" style="margin-top:12px">بازگشت به منو <span></span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec-block" id="gz-comments">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="feedback-section">
+                            <h2>نظرات ({{ gz_comments|length }})</h2>
+                            <div class="testimonials-list">
+                                {% for c in gz_comments %}
+                                <div class="test-monial">
+                                    <div class="testi_head">
+                                        <ul>
+                                            <li><img src="{{ c.avatar }}" alt=""><span>{{ c.display_name }}</span></li>
+                                            <li>{{ c.time_ago }}</li>
+                                            <li><ul class="rating">{% for s in "12345" %}<li><i class="{% if forloop.counter <= c.rating %}fa{% else %}far{% endif %} fa-star"></i></li>{% endfor %}</ul></li>
+                                        </ul>
+                                    </div>
+                                    <p>{{ c.text }}</p>
+                                    {% if c.reply_obj %}<div class="gz-reply"><b>پاسخ {{ c.reply_obj.author_name|default:"رستوران" }} · {{ c.reply_obj.time_ago }}</b><p>{{ c.reply_obj.text }}</p></div>{% endif %}
+                                    {% if user.is_staff %}
+                                    <form class="gz-rform" method="post" action="{% url 'details_reply_add' c.pk %}">{% csrf_token %}
+                                        <textarea name="text" maxlength="500" placeholder="پاسخ ادمین...">{{ c.reply_obj.text }}</textarea>
+                                        <button type="submit">{% if c.reply_obj %}ویرایش پاسخ{% else %}ثبت پاسخ{% endif %}</button>
+                                    </form>
+                                    {% endif %}
+                                </div><!--test-monial end-->
+                                {% empty %}
+                                <p class="gz-empty">هنوز نظری ثبت نشده. اولین نفر باشید!</p>
+                                {% endfor %}
+                            </div>
+                        </div><!--feedback section end-->
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+                            <div class="widget widget-review">
+                                <h3 class="widget-title">ثبت دیدگاه</h3>
+                                {% if gz_flash %}<div class="gz-flash {{ gz_flash.kind }}">{{ gz_flash.text }}</div>{% endif %}
+                                {% if user.is_authenticated %}
+                                <form method="post" action="{% url 'details_comment_add' gz_item.pk %}">{% csrf_token %}
+                                    <textarea name="text" maxlength="500" placeholder="دیدگاه خود را بنویسید" required></textarea>
+                                    <div class="gz-rate" title="امتیاز شما">{% for n in "54321" %}<input type="radio" name="rating" id="gzr{{ n }}" value="{{ n }}" {% if n == "5" %}checked{% endif %}><label for="gzr{{ n }}">★</label>{% endfor %}</div>
+                                    <button type="submit" class="btn-default half-radius">ارسال <span></span></button>
+                                </form>
+                                {% else %}
+                                <div class="gz-login">
+                                    <p style="margin-bottom:14px">برای ثبت دیدگاه ابتدا وارد حساب خود شوید.</p>
+                                    <a href="{% url 'sign_in' %}?next={% url 'details_item' gz_item.pk %}" class="btn-default half-radius">ورود به حساب <span></span></a>
+                                </div>
+                                {% endif %}
+                            </div><!--widget-review end-->
+                        </div><!--sidebar end-->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+        (function(){var m=document.getElementById("gz-main");if(!m)return;
+          document.querySelectorAll(".gz-thumbs img").forEach(function(t){t.addEventListener("click",function(){
+            m.src=t.src;document.querySelectorAll(".gz-thumbs img").forEach(function(x){x.classList.remove("on")});t.classList.add("on");});});})();
+        </script>
+{% else %}
+
+        <section class="sec-block">
+            <div class="container">
+                <div class="restaurant-details">
+                    <div class="food-thumbail-large">
+                        <img src="{% static 'assets/images/bolghari.webp' %}" alt="غذاهای بلغاری" class="w-100">
+                    </div>
+                    <div class="food-info">
+                        <ul class="meta">
+                            <li>
+                                <img src="{% static 'assets/images/icons/calendar.svg' %}" alt="">
+                                <span>شنبه تا جمعه</span>
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/images/icons/clock.svg' %}" alt="">
+                                <span>۹ صبح تا ۱۱ شب</span>
+                            </li>
+                            <li>
+                                <span>۳ دیدگاه</span>
+                                <ul class="rating">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h4>طعم‌های اصیل اروپای شرقی با سلیقه‌ای مدرن؛ هر روز تازه و با بهترین مواد اولیه پخته می‌شود.</h4>
+                        <p>رستوران ما سال‌هاست با ارائه غذاهای اصیل و سالم، انتخاب اول خانواده‌ها بوده است. آشپزهای ما با استفاده از تازه‌ترین مواد اولیه، هر روز منویی متنوع از غذاهای گرم، سالادهای تازه و دسرهای خانگی آماده می‌کنند. فضای دنج رستوران و ارسال سریع سفارش‌ها، تجربه‌ای لذت‌بخش برای شما می‌سازد. ما به کیفیت غذا و رضایت مشتریان بیش از هر چیز اهمیت می‌دهیم و همیشه برای شنیدن نظرات شما آماده‌ایم</p>
+                    </div>
+                </div><!--restaurant-details end-->
+            </div>
+        </section>
+
+        <section class="sec-block p-0">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span>طعم‌های فوق‌العاده </span>
+                    <h2 class="text-capitalize">منو</h2>
+                </div><!--sec-title end-->
+                <div class="popular-dishes style2 text-center">
+                    <div class="options">
+                        <div class="option-isotop">
+                            <ul id="filter" class="option-set filters-nav" data-option-key="filter">
+                                {% for c in categories %}
+                                <li><a{% if selected_category %}{% if c.pk == selected_category.pk %} class="selected"{% endif %}{% elif forloop.first %} class="selected"{% endif %} data-option-value=".cat-{{ c.pk }}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div><!--options end-->
+                    <div class="row">
+                        <div class="masonary">
+                            {% for it in gz_items %}
+                            <div class="col-lg-4 col-md-4 col-sm-6 cat-{{ it.category_id }}">
+                                <div class="pd-item">
+                                    <div class="pd-thumbnail">
+                                        <a href="{% url 'details_item' it.pk %}"><img src="{{ it.image.url }}" alt="{{ it.title }}" class="w-100"></a>
+                                    </div>
+                                    <h3 class="semi-bold text-capitalize"><a href="{% url 'details_item' it.pk %}" title="">{{ it.title }}</a></h3>
+                                    {% if it.price %}<p class="semi-bold" style="margin:6px 0 0">{{ it.price|intcomma }} تومان</p>{% endif %}
+                                </div><!--pd-item end-->
+                            </div>
+                            {% endfor %}
+                        </div><!--masonary end-->
+                    </div>
+                </div><!--popular-dishes end-->
+            </div>
+        </section>
+{% endif %}
+
+        <footer>
+            <div class="top-footer">
+                <div class="fixed-bg bg3"></div>
+                <div class="phone-div">
+                    <div class="border-circle">
+                        <div class="phone-circle">
+                            <a href="#" title="" class="ext-link"></a>
+                            <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.3333 14.1V16.6C18.3343 16.8321 18.2867 17.0618 18.1937 17.2745C18.1008 17.4871 17.9644 17.678 17.7934 17.8349C17.6224 17.9918 17.4205 18.1113 17.2006 18.1856C16.9808 18.26 16.7478 18.2876 16.5167 18.2667C13.9523 17.9881 11.4891 17.1118 9.32498 15.7084C7.31151 14.4289 5.60443 12.7218 4.32498 10.7084C2.91663 8.53436 2.04019 6.05919 1.76665 3.48336C1.74583 3.25291 1.77321 3.02066 1.84707 2.80138C1.92092 2.5821 2.03963 2.3806 2.19562 2.20971C2.35162 2.03882 2.54149 1.90228 2.75314 1.80879C2.9648 1.7153 3.1936 1.66691 3.42499 1.66669H5.92498C6.32941 1.66271 6.72148 1.80592 7.02812 2.06964C7.33476 2.33335 7.53505 2.69956 7.59165 3.10002C7.69717 3.90008 7.89286 4.68563 8.17498 5.44169C8.2871 5.73996 8.31137 6.06412 8.24491 6.37576C8.17844 6.6874 8.02404 6.97345 7.79998 7.20002L6.74165 8.25836C7.92795 10.3446 9.65536 12.0721 11.7417 13.2584L12.8 12.2C13.0266 11.976 13.3126 11.8216 13.6242 11.7551C13.9359 11.6886 14.26 11.7129 14.5583 11.825C15.3144 12.1071 16.0999 12.3028 16.9 12.4084C17.3048 12.4655 17.6745 12.6694 17.9388 12.9813C18.203 13.2932 18.3435 13.6913 18.3333 14.1Z" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/logo.png' %}" alt="">
+                                <h4>ساعات کاری</h4>
+                                <p>شنبه تا جمعه: ۹ صبح تا ۱۰ شب <br /> جمعه: ۱۰ صبح تا ۸ شب</p>
+                            </div><!--widget-about end-->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="widget widget-contact text-center">
+                                <h2><span>برای سفارش</span> با ما تماس بگیرید!</h2>
+                                <p>خجالت نکشید، ما گاز نمی‌گیریم :)</p>
+                                <strong>۰۲۱-۱۲۳۴۵۶۷۸</strong>
+                            </div><!--widget-contact end-->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-payment">
+                                <div class="wid-payment">
+                                    <h4>روش‌های پرداخت</h4>
+                                    <img src="{% static 'assets/images/imgs.png' %}" alt="">
+                                </div>
+                                <div class="wid-payment">
+                                    <h4>دانلود اپلیکیشن</h4>
+                                    <ul>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn1.png' %}" alt=""></a></li>
+                                        <li><a href="#" title=""><img src="{% static 'assets/images/btn2.png' %}" alt=""></a></li>
+                                    </ul>
+                                </div>
+                            </div><!--widget-payment end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-footer">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>© تمامی حقوق محفوظ است. Designed &amp; Developed by <a href="https://sepehrbaghernezhadian.ir/" target="_blank" rel="noopener">Sepehr Baghernejadian</a></p>
+                            </div><!--copyright end-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="find-us text-right">
+                                <h5>ما را دنبال کنید:</h5>
+                                <ul class="social-links-text">
+                                    <li><a href="#" title="">فیسبوک</a></li>
+                                    <li><a href="#" title="">توییتر</a></li>
+                                    <li><a href="https://www.instagram.com/sepi__en/" target="_blank" rel="noopener" title="sepi__en">اینستاگرام</a></li>
+                                </ul>
+                            </div><!--find-us end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer><!--footer end-->
+        
+    </div><!--wrapper end-->
+
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/slick/slick.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-ui.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+
+        <script>
+        /* فیلتر دسته‌بندی منو (اگر isotope لود نشده باشد، این نسخه‌ی ساده کار می‌کند) */
+        (function ($) {
+            if (!$ || $.fn.isotope) return;
+            var $wrap = $('.masonary');
+            if (!$wrap.length) return;
+            $wrap.css({display: 'flex', flexWrap: 'wrap'});
+            var $items = $wrap.children('div');
+            function apply(sel) { $items.hide().filter(sel).show(); }
+            $('#filter a').on('click', function (e) {
+                e.preventDefault();
+                $('#filter a').removeClass('selected');
+                $(this).addClass('selected');
+                apply($(this).data('option-value'));
+            });
+            var $sel = $('#filter a.selected');
+            if ($sel.length) apply($sel.data('option-value'));
+        })(window.jQuery);
+        </script>
+</body>
+</html>

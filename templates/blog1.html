@@ -1,0 +1,40 @@
+{% extends 'blog_base.html' %}
+{% block title %}بلاگ{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<div class="blog-toolbar">
+    <a href="{% url 'blog_create' %}" class="btn-default">+ افزودن بلاگ جدید <span></span></a>
+</div>
+{% endif %}
+
+<div class="blog-posts blog-page">
+    <div class="row">
+        {% for post in page %}
+        <div class="col-lg-4 col-md-6">
+            <div class="blog">
+                <div class="blog-thumbnail">
+                    <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-100"></a>
+                </div>
+                <div class="blog-info">
+                    <h2 class="blog-title"><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+                </div>
+            </div><!--blog end-->
+        </div>
+        {% empty %}
+        <div class="col-12"><p class="blog-empty">هنوز بلاگی ثبت نشده است.</p></div>
+        {% endfor %}
+    </div>
+
+    {% if page.has_other_pages %}
+    <div class="pagination-box">
+        {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">قبلی</a>{% endif %}
+        {% for n in page.paginator.page_range %}
+            {% if n == page.number %}<span class="current">{{ n }}</span>
+            {% else %}<a href="?page={{ n }}">{{ n }}</a>{% endif %}
+        {% endfor %}
+        {% if page.has_next %}<a href="?page={{ page.next_page_number }}">بعدی</a>{% endif %}
+    </div>
+    {% endif %}
+</div><!--blog-posts end-->
+{% endblock %}

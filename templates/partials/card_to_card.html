@@ -1,0 +1,65 @@
+{% load humanize %}
+{% comment %}
+    بلو بانک — کارت به کارت
+    کارت بانکی سفید با شمارهٔ کارت و نام صاحب حساب + مبلغ قابل پرداخت سفارش.
+    برای استفاده کافی است cart_totals در context موجود باشد.
+{% endcomment %}
+<div class="bb-panel">
+    <div class="bb-bankbar">
+        <span class="bb-mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 9.2c3-3 6-3 9 0s6 3 9 0" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M2 15c3-3 6-3 9 0s6 3 9 0" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </span>
+        <span class="bb-bankbar__name">
+            <strong>بلو بانک</strong>
+            <small>BLUE BANK</small>
+        </span>
+        <span class="bb-tag">کارت به کارت</span>
+    </div><!--bb-bankbar end-->
+
+    <div class="bb-card">
+        <div class="bb-card__top">
+            <span class="bb-card__chip" aria-hidden="true"></span>
+            <span class="bb-card__wave" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20.5a9 9 0 0 1 0-17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M12 16.5a5 5 0 0 1 0-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M12 12.5a1.5 1.5 0 0 1 0-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="bb-card__brand">
+                <b>بلو بانک</b>
+                <span>BLUE BANK</span>
+            </span>
+        </div>
+        <div class="bb-card__num" dir="ltr">6219 8614 7866 5580</div>
+        <div class="bb-card__bot">
+            <span class="bb-card__field">
+                <small>صاحب کارت</small>
+                <strong>سپهر باقرنژادیان</strong>
+            </span>
+            <span class="bb-card__field bb-card__field--left">
+                <small>روش پرداخت</small>
+                <strong>کارت به کارت</strong>
+            </span>
+        </div>
+    </div><!--bb-card end-->
+
+    <div class="bb-tools">
+        <button type="button" class="bb-copy" data-bb-copy="6219861478665580">کپی شماره کارت</button>
+        <span class="bb-copy-msg" role="status"></span>
+    </div><!--bb-tools end-->
+
+    <div class="bb-amount">
+        <span>مبلغ قابل پرداخت این سفارش</span>
+        <strong>{{ cart_totals.grand_total|intcomma }} <small>تومان</small></strong>
+    </div><!--bb-amount end-->
+
+    <ol class="bb-steps">
+        <li>مبلغ <b>{{ cart_totals.grand_total|intcomma }} تومان</b> را به شمارهٔ کارت بالا واریز کنید.</li>
+        <li>شمارهٔ پیگیری یا تصویر رسید را برای پشتیبانی بفرستید.</li>
+        <li>روی «تأیید پرداخت» بزنید تا سفارش شما ثبت شود.</li>
+    </ol><!--bb-steps end-->
+</div><!--bb-panel end-->
