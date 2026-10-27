@@ -4,21 +4,30 @@ Settings for the "restoran_asli" project (DeliTaste template).
 
 import os
 from pathlib import Path
-
 import dj_database_url
 
 # BASE_DIR = the folder that contains manage.py, templates/ and static/
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ---------------------------------------------------------------------------
+# SECURITY & ENVIRONMENT VARIABLES
+# ---------------------------------------------------------------------------
+# اگر در رندر باشیم، متغیرهای محیطی وجود دارند. اگر لوکال باشیم، مقادیر پیش‌فرض استفاده می‌شوند.
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-me')
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+# تشخیص خودکار محیط: اگر متغیر RENDER وجود داشت یعنی روی سرور هستیم
+IS_RENDER = 'RENDER' in os.environ
+
+# اگر روی رندر باشیم، DEBUG باید False باشد. در غیر این صورت True
+DEBUG = os.environ.get('DEBUG', 'False' if IS_RENDER else 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
 
-
+# ---------------------------------------------------------------------------
+# APPLICATIONS & MIDDLEWARE
+# ---------------------------------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -64,14 +73,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restoran_asli.wsgi.application'
 
-
-# On Render: uses DATABASE_URL (Neon). Locally: falls back to SQLite.
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-    )
-}
+# ---------------------------------------------------------------------------
+# DATABASE (SMART SWITCH)
+# ---------------------------------------------------------------------------
+# منطق کار: 
+# اگر روی رندر باشیم (RENDER env وجود دارد) و لینک دیتابیس (DATABASE_URL) ست شده باشد،
+# به دیتابیس اصلی وصل می‌شود. در غیر این صورت (روی سیستم شما)، از SQLite استفاده می‌کند.
+# ---------------------------------------------------------------------------
+if IS_RENDER and os.environ.get('DATABASE_URL'):
+    # محیط پروداکشن (Render)
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # محیط لوکال (سیستم شخصی شما)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db_local.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -85,12 +109,12 @@ TIME_ZONE = 'Asia/Tehran'
 USE_I18N = True
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, images, fonts)
-# Files are in  static/assets/...  and used in templates as  {% static 'assets/...' %}
+# ---------------------------------------------------------------------------
+# STATIC & MEDIA FILES
+# ---------------------------------------------------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'   # used by "collectstatic" (production)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
@@ -99,6 +123,5 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Uploaded files (food photos from the admin panel)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
