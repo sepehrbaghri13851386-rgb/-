@@ -34,9 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',              # قبل از staticfiles
     'django.contrib.staticfiles',
-    'cloudinary',                      # بعد از staticfiles
+    'cloudinary',
     'django.contrib.humanize',
     'ghaza_app',
     'GOZIYAT_APP',
