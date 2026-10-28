@@ -22,7 +22,7 @@
 </li>
 {% endwith %}
 {% else %}
-<li><a href="{% url 'sign_in' %}" title="ورود" class="cart-ico">ورود <img src="{% static 'assets/images/icons/sign-in.svg' %}" alt=""></a></li>
+<li class="auth-guest"><a href="{% url 'sign_in' %}" title="ورود" class="cart-ico">ورود <img src="{% static 'assets/images/icons/sign-in.svg' %}" alt=""></a></li>
 {% endif %}
 <script>
 /* header account menu: open/close the dropdown (kept here so it never depends on script caching) */

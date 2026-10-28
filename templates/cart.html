@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}?v=2">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=4">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/rtl.css' %}?v=5">
     <style>
         /* ---- cart page RTL/mobile fixes ---- */
         .cart-page table tbody tr td .cart-prod-info { top: 0; }
@@ -134,26 +134,7 @@
             </div>
         </header><!--header end-->
 
-        <div class="responsive-mobile-menu">
-            <ul>
-                <li><a href="{% url 'index' %}" title="">خانه</a></li>
-                <li><a href="{% url 'about' %}" title="">درباره ما</a></li>
-                <li><a class="active" href="#" title="">صفحات</a>
-                    <ul>
-                        <li><a href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
-                        <li><a href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
-                        <li><a href="{% url 'cart' %}" title="">سبد خرید</a></li>
-                        <li><a href="{% url 'checkout' %}" title="">پرداخت</a></li>
-                        <li><a href="{% url 'profile' %}" title="">پروفایل من</a></li>
-                        <li><a href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
-                        <li><a href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
-                        <li><a href="{% url 'not_found' %}" title="">404</a></li>
-                    </ul>
-                </li>
-                <li><a href="{% url 'blog1' %}" title="">بلاگ</a></li>
-                <li><a href="{% url 'contact' %}" title="">تماس با ما</a></li>
-            </ul>
-        </div><!--responsive-mobile-menu end-->
+        {% include 'partials/mobile_menu.html' %}
 
         <section class="pager-section text-center">
             <div class="fixed-bg bg4"></div>

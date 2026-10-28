@@ -1,0 +1,26 @@
+{# --------------------------------------------------------------------------- #}
+{# منوی موبایل (دکمهٔ سه‌خطی) — همهٔ بخش‌های سایت، تخت و بدون زیرمنو            #}
+{# مشترک بین همهٔ صفحات: templates/partials/mobile_menu.html                    #}
+{# --------------------------------------------------------------------------- #}
+<div class="responsive-mobile-menu">
+    <ul>
+        {% with cur=request.resolver_match.url_name %}
+        <li><a{% if cur == 'index' %} class="active"{% endif %} href="{% url 'index' %}" title="">خانه</a></li>
+        <li><a{% if cur == 'about' %} class="active"{% endif %} href="{% url 'about' %}" title="">درباره ما</a></li>
+        <li><a{% if cur == 'restaurants' or cur == 'restaurant_add' or cur == 'restaurant_detail' or cur == 'restaurant_edit' %} class="active"{% endif %} href="{% url 'restaurants' %}" title="">رستوران‌ها</a></li>
+        <li><a{% if cur == 'restaurant_details' or cur == 'details_category' or cur == 'details_item' %} class="active"{% endif %} href="{% url 'restaurant_details' %}" title="">جزئیات رستوران</a></li>
+        <li><a{% if cur|slice:':4' == 'cart' %} class="active"{% endif %} href="{% url 'cart' %}" title="">سبد خرید</a></li>
+        <li><a{% if cur|slice:':8' == 'checkout' %} class="active"{% endif %} href="{% url 'checkout' %}" title="">پرداخت</a></li>
+        <li><a{% if cur == 'profile' %} class="active"{% endif %} href="{% url 'profile' %}" title="">پروفایل من</a></li>
+        <li><a{% if cur == 'faqs' %} class="active"{% endif %} href="{% url 'faqs' %}" title="">سوالات متداول</a></li>
+        <li><a{% if cur == 'testimonials' %} class="active"{% endif %} href="{% url 'testimonials' %}" title="">نظرات مشتریان</a></li>
+        <li><a{% if cur|slice:':4' == 'blog' %} class="active"{% endif %} href="{% url 'blog1' %}" title="">بلاگ</a></li>
+        <li><a{% if cur == 'search' %} class="active"{% endif %} href="{% url 'search' %}" title="">جستجو</a></li>
+        <li><a{% if cur == 'contact' or cur == 'contact_send' %} class="active"{% endif %} href="{% url 'contact' %}" title="">تماس با ما</a></li>
+        {% if not user.is_authenticated %}
+        <li><a{% if cur == 'sign_in' %} class="active"{% endif %} href="{% url 'sign_in' %}" title="">ورود</a></li>
+        <li><a{% if cur == 'sign_up' %} class="active"{% endif %} href="{% url 'sign_up' %}" title="">ثبت‌نام</a></li>
+        {% endif %}
+        {% endwith %}
+    </ul>
+</div><!--responsive-mobile-menu end-->

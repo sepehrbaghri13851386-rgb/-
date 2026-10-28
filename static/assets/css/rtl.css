@@ -562,3 +562,62 @@ footer .top-footer .phone-div .border-circle .phone-circle {
   margin: 0 auto;
   left: 0;
 }
+/* ==========================================================================
+   موبایل و تبلت (تا ۱۲۰۰px) — هدر، دکمهٔ سه‌خطی و حساب کاربری
+   ========================================================================== */
+@media only screen and (max-width: 1200px) {
+  /* ۱) پس‌زمینهٔ نیمه‌شفاف با مات‌شدگی (blur) زیر هدر:
+        تصویر پس‌زمینه «دور» می‌افتد و آیکون سه‌خطی سفید واضح دیده می‌شود؛
+        نوار سفید/مشکی جامد در بالا یا پایین صفحه ایجاد نمی‌شود و طرح از زیر هدر دیده می‌ماند. */
+  header {
+    background: linear-gradient(to bottom, rgba(12, 14, 20, 0.62), rgba(12, 14, 20, 0.26));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  /* ۲) دکمهٔ سه‌خطی: هدف لمسی بزرگ‌تر (≈۴۳px) و فاصلهٔ مشخص از لوگو */
+  header .menu-btn {
+    margin-right: auto;
+    margin-left: 14px;
+    padding: 14px 4px;
+  }
+
+  /* ۳) آواتار / ورود حساب کاربری در گوشهٔ بالا-سمت چپ، کنار دکمهٔ سه‌خطی
+        (بقیهٔ آیتم‌های هدر در موبایل مخفی می‌مانند) */
+  header .oth-lnks {
+    display: flex;
+    align-items: center;
+    margin-left: 0 !important; /* لغو کلاس ml-auto تا گروه به گوشهٔ چپ بچسبد */
+  }
+  header .oth-lnks > li {
+    display: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  header .oth-lnks > li.auth-menu,
+  header .oth-lnks > li.auth-guest {
+    display: inline-block;
+  }
+  header .oth-lnks > li.auth-guest a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 15px;
+    white-space: nowrap;
+    padding: 11px 6px;
+  }
+  header .auth-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
+
+  /* ۴) منوی کشویی: ارتفاع سرانجام به‌اندازهٔ کامل صفحه تا انتهای لیست دیده شود */
+  .responsive-mobile-menu {
+    padding-bottom: 24px;
+  }
+  .responsive-mobile-menu ul li a {
+    padding: 16px 14px;
+    font-size: 15px;
+  }
+}
