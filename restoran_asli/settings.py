@@ -126,7 +126,7 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
