@@ -34,13 +34,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',              # قبل از staticfiles
     'django.contrib.staticfiles',
+    'cloudinary',                      # بعد از staticfiles
     'django.contrib.humanize',
     'ghaza_app',
     'GOZIYAT_APP',
     'nazerat_app',
     'blog_app',
-    'restoran_app'
+    'restoran_app',
 ]
 
 MIDDLEWARE = [
@@ -116,8 +118,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "default": {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 
